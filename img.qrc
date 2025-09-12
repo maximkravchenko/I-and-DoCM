@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/bg">
+        <file>resources/img/Background/Background_main.png</file>
+        <file>resources/img/Background/Background_main4k.png</file>
+    </qresource>
+    <qresource prefix="/logo">
+        <file>resources/img/logo/logo.ico</file>
+    </qresource>
+    <qresource prefix="/character">
+        <file>resources/img/Character/grimm.png</file>
+    </qresource>
+</RCC>
