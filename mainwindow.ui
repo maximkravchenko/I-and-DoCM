@@ -13,8 +13,11 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="tabShape">
+   <enum>QTabWidget::TabShape::Rounded</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="BackgroundLabel">
+   <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -23,130 +26,166 @@
       <height>651</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
+    <property name="currentIndex">
+     <number>1</number>
     </property>
-    <property name="pixmap">
-     <pixmap resource="img.qrc">:/bg/resources/img/Background/Background_main4k.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="CharacterLabel">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>150</y>
-      <width>351</width>
-      <height>491</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="img.qrc">:/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_019.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Lab1BTN">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>130</y>
-      <width>301</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>L1</string>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>100</width>
-      <height>100</height>
-     </size>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Lab2BTN">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>290</y>
-      <width>301</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lab 2</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Lab3BTN">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>450</y>
-      <width>301</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lab 3</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>450</y>
-      <width>301</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>lab6</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_5">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>290</y>
-      <width>301</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lab5</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_6">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>130</y>
-      <width>301</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Lab4</string>
-    </property>
+    <widget class="QWidget" name="page">
+     <widget class="QLabel" name="BackgroundLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1101</width>
+        <height>651</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/bg/resources/img/Background/Background_main4k.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="CharacterLabel">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>150</y>
+        <width>351</width>
+        <height>491</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">/* border: 2px solid green;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_019.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+      <property name="openExternalLinks">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Lab1BTN">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>180</y>
+        <width>301</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Поклон</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Lab2BTN">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>320</y>
+        <width>301</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Верть</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Lab3BTN">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>450</y>
+        <width>301</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Крылья</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>470</y>
+        <width>301</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>lab6</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="HandsOUT">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>290</y>
+        <width>301</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>HandsOUT</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="SKIP">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>140</y>
+        <width>301</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>SKIP</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_2">
+     <widget class="QPushButton" name="Back">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>260</y>
+        <width>321</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -36,6 +36,11 @@ MainWindow::MainWindow(QWidget *parent)
     cloakAnim.frames = getCloakFrames();
     cloakAnim.loop = false;
     characterAnim->addAnimation("cloak", cloakAnim);
+    // Установка отдельной анимации Щелчек
+    Animation handsOutAnim;
+    handsOutAnim.frames = getHandsOutFrames();
+    handsOutAnim.loop = false;
+    characterAnim->addAnimation("handsOut", handsOutAnim);
 
     // Начало анимации персонажа
     characterAnim->playAnimation("intro");
@@ -53,6 +58,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->Lab3BTN, &QPushButton::clicked, this, [=](){
         characterAnim->playAnimation("cloak");
+    });
+
+    connect(ui->SKIP, &QPushButton::clicked, this, [this]() {
+        characterAnim->playSequence({"reverance", "handsOut"}, [this]() {
+            ui->stackedWidget->setCurrentIndex(1);
+        });
+    });
+
+
+
+
+
+    connect(ui->Back, &QPushButton::clicked, this, [=]() {
+        ui->stackedWidget->setCurrentIndex(0);
     });
 }
 

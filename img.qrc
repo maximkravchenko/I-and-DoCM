@@ -75,4 +75,17 @@
         <file>resources/animations/grimm/open_cloak/Absorb Start_007.png</file>
         <file>resources/animations/grimm/open_cloak/Absorb Start_008.png</file>
     </qresource>
+    <qresource prefix="/grimm_animation/hands_out">
+        <file>resources/animations/grimm/hands_out/Hand Out_0000.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0001.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0002.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0003.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0004.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0005.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0006.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0007.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0008.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0009.png</file>
+        <file>resources/animations/grimm/hands_out/Hand Out_0010.png</file>
+    </qresource>
 </RCC>

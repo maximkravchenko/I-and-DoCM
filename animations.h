@@ -68,4 +68,20 @@ inline QVector<QPixmap> getCloakFrames() {
     frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
     return frames;
 }
+
+inline QVector<QPixmap> getHandsOutFrames() {
+    QVector<QPixmap> frames;
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0000.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0001.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0002.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0003.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0004.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0005.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0006.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0007.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0008.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0009.png"));
+    frames.append(QPixmap(":/grimm_animation/hands_out/resources/animations/grimm/hands_out/Hand Out_0010.png"));
+    return frames;
+}
 #endif // ANIMATIONS_H
