@@ -1,0 +1,12 @@
+version: 2
+type: animation
+name: Tele In
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: false
+sprites: 5
+0	Tele In_000.png
+1	Tele In_001.png
+2	Tele In_002.png
+3	Tele In_003.png
+4	Tele In_004.png

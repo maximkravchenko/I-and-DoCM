@@ -9,4 +9,70 @@
     <qresource prefix="/character">
         <file>resources/img/Character/grimm.png</file>
     </qresource>
+    <qresource prefix="/grimm_animation/stay">
+        <file>resources/animations/grimm/stay/Absorb End_000.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_001.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_002.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_003.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_004.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_005.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_006.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_007.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_008.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_009.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_010.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_011.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_012.png</file>
+        <file>resources/animations/grimm/stay/Absorb End_013.png</file>
+    </qresource>
+    <qresource prefix="/grimm_animation/t+s">
+        <file>resources/animations/grimm/spawn/Tele In_000.png</file>
+        <file>resources/animations/grimm/spawn/Tele In_001.png</file>
+        <file>resources/animations/grimm/spawn/Tele In_002.png</file>
+        <file>resources/animations/grimm/spawn/Tele In_003.png</file>
+        <file>resources/animations/grimm/spawn/Tele In_004.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_000.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_001.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_002.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_003.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_004.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_005.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_006.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_007.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_008.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_009.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_010.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_011.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_012.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_013.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_014.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_015.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_016.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_017.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_018.png</file>
+        <file>resources/animations/grimm/teleport+stay/TeleToIdle_019.png</file>
+    </qresource>
+    <qresource prefix="/grimm_animatiom/bow">
+        <file>resources/animations/grimm/bow/Bow_000.png</file>
+        <file>resources/animations/grimm/bow/Bow_001.png</file>
+        <file>resources/animations/grimm/bow/Bow_002.png</file>
+        <file>resources/animations/grimm/bow/Bow_003.png</file>
+        <file>resources/animations/grimm/bow/Bow_004.png</file>
+        <file>resources/animations/grimm/bow/Bow_005.png</file>
+        <file>resources/animations/grimm/bow/Bow_006.png</file>
+    </qresource>
+    <qresource prefix="/coursor">
+        <file>resources/coursore/coursore.png</file>
+    </qresource>
+    <qresource prefix="/grimm_animation/open_cloak">
+        <file>resources/animations/grimm/open_cloak/Absorb Start_000.png</file>
+        <file>resources/animations/grimm/open_cloak/Absorb Start_001.png</file>
+        <file>resources/animations/grimm/open_cloak/Absorb Start_002.png</file>
+        <file>resources/animations/grimm/open_cloak/Absorb Start_003.png</file>
+        <file>resources/animations/grimm/open_cloak/Absorb Start_004.png</file>
+        <file>resources/animations/grimm/open_cloak/Absorb Start_005.png</file>
+        <file>resources/animations/grimm/open_cloak/Absorb Start_006.png</file>
+        <file>resources/animations/grimm/open_cloak/Absorb Start_007.png</file>
+        <file>resources/animations/grimm/open_cloak/Absorb Start_008.png</file>
+    </qresource>
 </RCC>

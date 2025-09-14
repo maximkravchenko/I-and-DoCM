@@ -36,23 +36,23 @@
    <widget class="QLabel" name="CharacterLabel">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>220</y>
-      <width>201</width>
-      <height>411</height>
+      <x>370</x>
+      <y>150</y>
+      <width>351</width>
+      <height>491</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="img.qrc">:/character/resources/img/Character/grimm.png</pixmap>
+     <pixmap resource="img.qrc">:/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_019.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Lab1BTN">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -61,11 +61,26 @@
       <height>71</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="text">
-     <string>lab 1</string>
+     <string>L1</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>100</width>
+      <height>100</height>
+     </size>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="Lab2BTN">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -78,7 +93,7 @@
      <string>Lab 2</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="Lab3BTN">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -125,6 +140,9 @@
       <width>301</width>
       <height>71</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Lab4</string>

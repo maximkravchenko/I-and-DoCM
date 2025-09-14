@@ -1,0 +1,14 @@
+version: 2
+type: animation
+name: Bow
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: false
+sprites: 7
+0	Bow_000.png
+1	Bow_001.png
+2	Bow_002.png
+3	Bow_003.png
+4	Bow_004.png
+5	Bow_005.png
+6	Bow_006.png

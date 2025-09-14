@@ -10,6 +10,11 @@ int main(int argc, char *argv[])
     w.setFixedSize(1100, 700);
     w.setWindowTitle("Grimm pressent");
 
+
+    QIcon iconApp(":/logo/resources/img/logo/logo.ico");
+    w.setWindowIcon(iconApp);
+
+
     w.show();
     return a.exec();
 }

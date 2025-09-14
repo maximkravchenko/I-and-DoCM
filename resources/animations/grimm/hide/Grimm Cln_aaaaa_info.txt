@@ -1,0 +1,13 @@
+version: 2
+type: animation
+name: Tele Out
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: false
+sprites: 6
+0	Tele Out_000.png
+1	Tele Out_001.png
+2	Tele Out_002.png
+3	Tele Out_003.png
+4	Tele Out_004.png
+5	Tele Out_005.png

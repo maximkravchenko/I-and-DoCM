@@ -1,0 +1,16 @@
+version: 2
+type: animation
+name: Absorb Start
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: false
+sprites: 9
+0	Absorb Start_000.png
+1	Absorb Start_001.png
+2	Absorb Start_002.png
+3	Absorb Start_003.png
+4	Absorb Start_004.png
+5	Absorb Start_005.png
+6	Absorb Start_006.png
+7	Absorb Start_007.png
+8	Absorb Start_008.png

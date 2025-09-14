@@ -1,0 +1,21 @@
+version: 2
+type: animation
+name: Absorb End
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: false
+sprites: 14
+0	Absorb End_000.png
+1	Absorb End_001.png
+2	Absorb End_002.png
+3	Absorb End_003.png
+4	Absorb End_004.png
+5	Absorb End_005.png
+6	Absorb End_006.png
+7	Absorb End_007.png
+8	Absorb End_008.png
+9	Absorb End_009.png
+10	Absorb End_010.png
+11	Absorb End_011.png
+12	Absorb End_012.png
+13	Absorb End_013.png
