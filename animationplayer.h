@@ -1,5 +1,4 @@
-#ifndef ANIMATIONPLAYER_H
-#define ANIMATIONPLAYER_H
+#pragma once
 
 #include <QObject>
 #include <QLabel>
@@ -7,7 +6,8 @@
 #include <QVector>
 #include <QMap>
 #include <QTimer>
-#include <QPainter>
+#include <QPointer>
+#include <functional>
 
 struct Animation {
     QVector<QPixmap> frames;
@@ -28,26 +28,28 @@ public:
     void start(); // запуск таймера
     void stop();  // остановка анимации
 
+signals:
+    void animationFinished(const QString& name) const;
+
 private slots:
     void updateFrame();
     void resumeFromPause();
 
 private:
-    void renderFrame(const QPixmap& pix); // рисуем кадр в рамке
+    void renderFrame(const QPixmap& pix);
 
-    QLabel* label;
-    QTimer* timer;
-    QTimer* pauseTimer;
-    int currentFrame;
-    bool isPaused;
+    QPointer<QLabel> label;       // Non-owning
+    QTimer timer;
+    QTimer pauseTimer;
 
-    Animation* currentAnimation;
+    int currentFrame = 0;
+    bool isPaused = false;
 
-    QMap<QString, Animation> animations;
     QString currentAnimationName;
-    QVector<QPixmap> loopFrames; // основной луп
+    QMap<QString, Animation> animations;
+    QVector<QPixmap> loopFrames;  // основной луп
 
-signals:
-    void animationFinished(const QString& name);
+    // Для playSequence
+    QStringList sequenceQueue;
+    std::function<void()> sequenceCallback;
 };
-#endif // ANIMATIONPLAYER_H

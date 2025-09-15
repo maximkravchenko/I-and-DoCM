@@ -23,10 +23,12 @@ public:
     ~MainWindow();
 
 private slots:
+    void onPageChanged(int index);
 
 private:
     Ui::MainWindow *ui;
     AnimationPlayer* characterAnim;
+    AnimationPlayer* backgroundAnim;
 
 };
 #endif

@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 {
     ui->setupUi(this);
+    connect(ui->stackedWidget, &QStackedWidget::currentChanged, this, &MainWindow::onPageChanged);
+
 
     //Устанавливаем курсор
     QCursor cursorTarget = QCursor(QPixmap(":/coursor/resources/coursore/coursore.png"), 0, 0);
@@ -17,9 +19,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Подключение анимации к label
     characterAnim = new AnimationPlayer(ui->CharacterLabel, this);
+    backgroundAnim = new AnimationPlayer(ui->BackgroundLabel, this);
+
 
     // Установка анимации которая будет циклом
     characterAnim->setLoopAnimation(getLoopFrames());
+    backgroundAnim->setLoopAnimation(getBackgroundFrames());
 
     // Установка отдельной анимации ПОКЛОН
     Animation reveranceAnim;
@@ -45,25 +50,18 @@ MainWindow::MainWindow(QWidget *parent)
     // Начало анимации персонажа
     characterAnim->playAnimation("intro");
     characterAnim->start();
+    backgroundAnim->start();
 
 
     // Запуск анимации по кнопке
-    connect(ui->Lab1BTN, &QPushButton::clicked, this, [=](){
-        characterAnim->playAnimation("reverance");
-    });
-
-    connect(ui->Lab2BTN, &QPushButton::clicked, this, [=](){
-        characterAnim->playAnimation("intro");
-    });
-
-    connect(ui->Lab3BTN, &QPushButton::clicked, this, [=](){
-        characterAnim->playAnimation("cloak");
-    });
-
-    connect(ui->SKIP, &QPushButton::clicked, this, [this]() {
-        characterAnim->playSequence({"reverance", "handsOut"}, [this]() {
+    connect(ui->Lab1BTN, &QPushButton::clicked, this, [this](){
+        characterAnim->playSequence({"reverance", "handsOut"}, [this](){
             ui->stackedWidget->setCurrentIndex(1);
         });
+    });
+
+    connect(ui->Lab2BTN, &QPushButton::clicked, this, [this](){
+        characterAnim->playAnimation("reverance");
     });
 
 
@@ -78,4 +76,21 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::onPageChanged(int index)
+{
+    switch (index) {
+    case 0: // Главная страница
+        characterAnim->playAnimation("intro");
+        break;
+    case 1: // Вторая страница
+        characterAnim->playAnimation("reverance"); // или любая анимация для страницы
+        break;
+    // Добавляем case для каждой страницы
+    default:
+        characterAnim->playAnimation("intro"); // запасной вариант
+        break;
+    }
 }

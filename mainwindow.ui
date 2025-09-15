@@ -27,9 +27,9 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
-    <widget class="QWidget" name="page">
+    <widget class="QWidget" name="MainPage">
      <widget class="QLabel" name="BackgroundLabel">
       <property name="geometry">
        <rect>
@@ -52,10 +52,10 @@
      <widget class="QLabel" name="CharacterLabel">
       <property name="geometry">
        <rect>
-        <x>370</x>
-        <y>150</y>
-        <width>351</width>
-        <height>491</height>
+        <x>300</x>
+        <y>90</y>
+        <width>401</width>
+        <height>561</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -77,20 +77,20 @@
      <widget class="QPushButton" name="Lab1BTN">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>180</y>
-        <width>301</width>
-        <height>71</height>
+        <x>110</x>
+        <y>100</y>
+        <width>131</width>
+        <height>131</height>
        </rect>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background: transparent;</string>
       </property>
       <property name="text">
-       <string>Поклон</string>
+       <string/>
       </property>
       <property name="iconSize">
        <size>
@@ -105,73 +105,234 @@
      <widget class="QPushButton" name="Lab2BTN">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>320</y>
-        <width>301</width>
-        <height>71</height>
+        <x>110</x>
+        <y>270</y>
+        <width>131</width>
+        <height>131</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background: transparent;
+</string>
+      </property>
       <property name="text">
-       <string>Верть</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="Lab3BTN">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>110</x>
         <y>450</y>
-        <width>301</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Крылья</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_4">
-      <property name="geometry">
-       <rect>
-        <x>730</x>
-        <y>470</y>
-        <width>301</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>lab6</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="HandsOUT">
-      <property name="geometry">
-       <rect>
-        <x>740</x>
-        <y>290</y>
-        <width>301</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>HandsOUT</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="SKIP">
-      <property name="geometry">
-       <rect>
-        <x>740</x>
-        <y>140</y>
-        <width>301</width>
-        <height>71</height>
+        <width>131</width>
+        <height>131</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background: transparent;</string>
       </property>
       <property name="text">
-       <string>SKIP</string>
+       <string/>
       </property>
      </widget>
+     <widget class="QPushButton" name="Lab6BTN">
+      <property name="geometry">
+       <rect>
+        <x>830</x>
+        <y>440</y>
+        <width>131</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Lab5BTN">
+      <property name="geometry">
+       <rect>
+        <x>830</x>
+        <y>270</y>
+        <width>131</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Lab4BTN">
+      <property name="geometry">
+       <rect>
+        <x>830</x>
+        <y>100</y>
+        <width>131</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LAB1_Lable">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>100</y>
+        <width>151</width>
+        <height>130</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/LAB1.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LAB2_Lable">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>270</y>
+        <width>151</width>
+        <height>130</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/LAB2.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LAB3_Lable">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>450</y>
+        <width>151</width>
+        <height>130</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/LAB3.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LAB4_Lable">
+      <property name="geometry">
+       <rect>
+        <x>820</x>
+        <y>100</y>
+        <width>151</width>
+        <height>130</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/LAB4.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LAB5_Lable">
+      <property name="geometry">
+       <rect>
+        <x>820</x>
+        <y>270</y>
+        <width>151</width>
+        <height>130</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/LAB5.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LAB6_Lable">
+      <property name="geometry">
+       <rect>
+        <x>820</x>
+        <y>440</y>
+        <width>151</width>
+        <height>130</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/LAB6.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="TextPlace">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>-10</y>
+        <width>331</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/textplace.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>BackgroundLabel</zorder>
+     <zorder>CharacterLabel</zorder>
+     <zorder>LAB1_Lable</zorder>
+     <zorder>Lab1BTN</zorder>
+     <zorder>LAB2_Lable</zorder>
+     <zorder>LAB3_Lable</zorder>
+     <zorder>LAB4_Lable</zorder>
+     <zorder>LAB5_Lable</zorder>
+     <zorder>LAB6_Lable</zorder>
+     <zorder>Lab3BTN</zorder>
+     <zorder>Lab2BTN</zorder>
+     <zorder>Lab6BTN</zorder>
+     <zorder>Lab4BTN</zorder>
+     <zorder>Lab5BTN</zorder>
+     <zorder>TextPlace</zorder>
     </widget>
-    <widget class="QWidget" name="page_2">
+    <widget class="QWidget" name="Lab1_Page">
      <widget class="QPushButton" name="Back">
       <property name="geometry">
        <rect>
