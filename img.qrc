@@ -148,4 +148,10 @@
         <file>resources/animations/background/background_frame_048.jpg</file>
         <file>resources/animations/background/background_frame_049.jpg</file>
     </qresource>
+    <qresource prefix="/specific_architecture">
+        <file>resources/img/specific architecture/grimm_curtain_03.png</file>
+        <file>resources/img/specific architecture/Grimm_Main_tent_0011_1.png</file>
+        <file>resources/img/specific architecture/grimm_rag_main_tent.png</file>
+        <file>resources/img/specific architecture/rags.png</file>
+    </qresource>
 </RCC>

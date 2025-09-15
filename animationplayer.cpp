@@ -116,15 +116,18 @@ void AnimationPlayer::renderFrame(const QPixmap& pix)
     if (pix.isNull()) return;
 
     QSize boxSize = label->size();
+    QPixmap scaled = pix.scaled(boxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
     QPixmap base(boxSize);
     base.fill(Qt::transparent);
 
     QPainter painter(&base);
     painter.drawPixmap(
-        (boxSize.width() - pix.width()),
-        (boxSize.height() - pix.height()),
-        pix
+        (boxSize.width() - scaled.width()) / 2,
+        (boxSize.height() - scaled.height()) / 2,
+        scaled
         );
 
     label->setPixmap(base);
 }
+

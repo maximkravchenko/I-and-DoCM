@@ -3,7 +3,6 @@
 #include "animationplayer.h"
 #include "animations.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -11,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->stackedWidget, &QStackedWidget::currentChanged, this, &MainWindow::onPageChanged);
+    this->setStatusBar(nullptr);
 
 
     //Устанавливаем курсор
@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent)
             ui->stackedWidget->setCurrentIndex(1);
         });
     });
+
+
 
     connect(ui->Lab2BTN, &QPushButton::clicked, this, [this](){
         characterAnim->playAnimation("reverance");
