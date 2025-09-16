@@ -161,4 +161,47 @@ inline QVector<QPixmap>& getBackgroundFrames() {
     }();
     return f;
 }
+
+inline QVector<QPixmap>& getIntroChargingFrames() {
+    static QVector<QPixmap> f = []{
+        QVector<QPixmap> frames;
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/Intro/Capespike Cast_000.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/Intro/Capespike Cast_001.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/Intro/Capespike Cast_002.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/Intro/Capespike Cast_003.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/Intro/Capespike Cast_004.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/Intro/Capespike Cast_005.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/Intro/Capespike Cast_006.png"));
+
+        return frames;
+    }();
+    return f;
+}
+
+inline QVector<QPixmap>& getLoopChargingFrames() {
+    static QVector<QPixmap> f = []{
+        QVector<QPixmap> frames;
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/loop/frame1.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/loop/frame2.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/loop/frame3.png"));
+        return frames;
+    }();
+    return f;
+}
+
+inline QVector<QPixmap>& getOutroChargingFrames() {
+    static QVector<QPixmap> f = []{
+        QVector<QPixmap> frames;
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/outro/Capespike End_000.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/outro/Capespike End_001.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/outro/Capespike End_002.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/outro/Capespike End_003.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/outro/Capespike End_004.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/outro/Capespike End_005.png"));
+        frames.append(QPixmap(":/grimm_animations/charging/resources/animations/grimm/charging/outro/Capespike End_006.png"));
+        return frames;
+    }();
+    return f;
+}
+
 #endif // ANIMATIONS_H

@@ -5,6 +5,9 @@
 #include <QPixmap>
 #include <QVector>
 #include "animationplayer.h"
+#include "batterymonitor.h" // <--- добавлено
+#include <QPushButton>
+#include <QLabel>
 
 #include <QMainWindow>
 
@@ -24,11 +27,25 @@ public:
 
 private slots:
     void onPageChanged(int index);
+    void updateBatteryUI(); // слот для обновления UI батареи
+    void updateChargingAnimation(bool charging);
 
 private:
     Ui::MainWindow *ui;
+
     AnimationPlayer* characterAnim;
+    AnimationPlayer* characterL1Anim;
     AnimationPlayer* backgroundAnim;
 
+    BatteryMonitor* batteryMonitor; // <--- добавлено
+
+    // Метки и кнопки для батареи
+    QLabel* powerSourceLabel;
+    QLabel* batteryLevelLabel;
+    QLabel* powerSavingLabel;
+    QLabel* batteryTimeLabel;
+    QPushButton* sleepBtn;
+    QPushButton* hibernateBtn;
 };
+
 #endif

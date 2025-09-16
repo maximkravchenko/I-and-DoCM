@@ -2,6 +2,9 @@
     <qresource prefix="/bg">
         <file>resources/img/Background/Background_main.png</file>
         <file>resources/img/Background/Background_main4k.png</file>
+        <file>resources/img/Background/1Lab/backgroundClear4k.png</file>
+        <file>resources/img/Background/1Lab/Bg1frame.png</file>
+        <file>resources/img/Background/1Lab/Bg2frame.png</file>
     </qresource>
     <qresource prefix="/logo">
         <file>resources/img/logo/logo.ico</file>
@@ -96,6 +99,10 @@
         <file>resources/img/lab_BTN/LAB5.png</file>
         <file>resources/img/lab_BTN/LAB6.png</file>
         <file>resources/img/lab_BTN/textplace.png</file>
+        <file>resources/img/lab_BTN/Lab1/Back.png</file>
+        <file>resources/img/lab_BTN/Lab1/Hibernate.png</file>
+        <file>resources/img/lab_BTN/Lab1/sleep_mode.png</file>
+        <file>resources/img/lab_BTN/Lab1/infoboard.png</file>
     </qresource>
     <qresource prefix="/animated/background">
         <file>resources/animations/background/background_frame_001.jpg</file>
@@ -153,5 +160,27 @@
         <file>resources/img/specific architecture/Grimm_Main_tent_0011_1.png</file>
         <file>resources/img/specific architecture/grimm_rag_main_tent.png</file>
         <file>resources/img/specific architecture/rags.png</file>
+    </qresource>
+    <qresource prefix="/grimm_animations/charging">
+        <file>resources/animations/grimm/charging/Intro/Capespike Cast_000.png</file>
+        <file>resources/animations/grimm/charging/Intro/Capespike Cast_001.png</file>
+        <file>resources/animations/grimm/charging/Intro/Capespike Cast_002.png</file>
+        <file>resources/animations/grimm/charging/Intro/Capespike Cast_003.png</file>
+        <file>resources/animations/grimm/charging/Intro/Capespike Cast_004.png</file>
+        <file>resources/animations/grimm/charging/Intro/Capespike Cast_005.png</file>
+        <file>resources/animations/grimm/charging/Intro/Capespike Cast_006.png</file>
+        <file>resources/animations/grimm/charging/loop/Capespike Cast_007.png</file>
+        <file>resources/animations/grimm/charging/loop/Capespike Cast_008.png</file>
+        <file>resources/animations/grimm/charging/loop/Capespike Cast_009.png</file>
+        <file>resources/animations/grimm/charging/outro/Capespike End_000.png</file>
+        <file>resources/animations/grimm/charging/outro/Capespike End_001.png</file>
+        <file>resources/animations/grimm/charging/outro/Capespike End_002.png</file>
+        <file>resources/animations/grimm/charging/outro/Capespike End_003.png</file>
+        <file>resources/animations/grimm/charging/outro/Capespike End_004.png</file>
+        <file>resources/animations/grimm/charging/outro/Capespike End_005.png</file>
+        <file>resources/animations/grimm/charging/outro/Capespike End_006.png</file>
+        <file>resources/animations/grimm/charging/loop/frame1.png</file>
+        <file>resources/animations/grimm/charging/loop/frame2.png</file>
+        <file>resources/animations/grimm/charging/loop/frame3.png</file>
     </qresource>
 </RCC>

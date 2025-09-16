@@ -123,8 +123,8 @@ void AnimationPlayer::renderFrame(const QPixmap& pix)
 
     QPainter painter(&base);
     painter.drawPixmap(
-        (boxSize.width() - scaled.width()) / 2,
-        (boxSize.height() - scaled.height()) / 2,
+        (boxSize.width() - scaled.width()) / 1,
+        (boxSize.height() - scaled.height()) / 1,
         scaled
         );
 

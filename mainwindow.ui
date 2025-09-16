@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,6 +16,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
+  </property>
   <property name="tabShape">
    <enum>QTabWidget::TabShape::Rounded</enum>
   </property>
@@ -23,20 +29,20 @@
       <x>0</x>
       <y>0</y>
       <width>1101</width>
-      <height>651</height>
+      <height>661</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="MainPage">
      <widget class="QLabel" name="BackgroundLabel">
       <property name="geometry">
        <rect>
-        <x>-40</x>
-        <y>-40</y>
-        <width>1171</width>
-        <height>721</height>
+        <x>-50</x>
+        <y>-60</y>
+        <width>1211</width>
+        <height>741</height>
        </rect>
       </property>
       <property name="text">
@@ -319,8 +325,8 @@
      <widget class="QLabel" name="curtainR">
       <property name="geometry">
        <rect>
-        <x>900</x>
-        <y>-40</y>
+        <x>910</x>
+        <y>-30</y>
         <width>341</width>
         <height>521</height>
        </rect>
@@ -400,32 +406,308 @@
      <zorder>LAB4_Lable</zorder>
      <zorder>LAB5_Lable</zorder>
      <zorder>LAB6_Lable</zorder>
-     <zorder>Lab3BTN</zorder>
-     <zorder>Lab2BTN</zorder>
-     <zorder>Lab6BTN</zorder>
-     <zorder>Lab4BTN</zorder>
-     <zorder>Lab5BTN</zorder>
      <zorder>TextPlace</zorder>
      <zorder>Rags</zorder>
      <zorder>curtainR_3</zorder>
      <zorder>curtainR_2</zorder>
      <zorder>curtainR</zorder>
      <zorder>Lab1BTN</zorder>
+     <zorder>Lab3BTN</zorder>
+     <zorder>Lab5BTN</zorder>
+     <zorder>Lab2BTN</zorder>
+     <zorder>Lab6BTN</zorder>
+     <zorder>Lab4BTN</zorder>
     </widget>
     <widget class="QWidget" name="Lab1_Page">
      <widget class="QPushButton" name="Back">
       <property name="geometry">
        <rect>
-        <x>370</x>
-        <y>260</y>
-        <width>321</width>
-        <height>51</height>
+        <x>120</x>
+        <y>540</y>
+        <width>91</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Background1Lab">
+      <property name="geometry">
+       <rect>
+        <x>-8</x>
+        <y>-1</y>
+        <width>1111</width>
+        <height>661</height>
+       </rect>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/bg/resources/img/Background/1Lab/backgroundClear4k.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="GrimmL1">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>200</y>
+        <width>271</width>
+        <height>381</height>
        </rect>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_017.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
       </property>
      </widget>
+     <widget class="QPushButton" name="SleepButton">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>540</y>
+        <width>91</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="HibernateButton">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>540</y>
+        <width>91</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="PowerSourceLabel">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>230</y>
+        <width>441</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;
+font-size: 28px;
+font-weight:1000
+</string>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="BatteryLevelLabel">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>320</y>
+        <width>441</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;
+font-size: 20px;
+font-weight:400
+</string>
+      </property>
+      <property name="text">
+       <string>% Заряда</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="PowerSavingModeLabel">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>380</y>
+        <width>441</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;
+font-size: 15px;
+font-weight:400
+</string>
+      </property>
+      <property name="text">
+       <string>Тип энерго</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="BatteryTimeLabel">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>350</y>
+        <width>441</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;
+font-size: 20px;
+font-weight:400
+</string>
+      </property>
+      <property name="text">
+       <string>Осталось времени</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="BACK_BTNLabel">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>540</y>
+        <width>91</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/Lab1/Back.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="SLEEP_BTNLabel_2">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>540</y>
+        <width>91</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/Lab1/sleep_mode.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Hibernate_BTNLabel_3">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>540</y>
+        <width>91</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/Lab1/Hibernate.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="Info_table">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>190</y>
+        <width>541</width>
+        <height>321</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/Lab1/infoboard.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="BatteryTypeLabel">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>430</y>
+        <width>441</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;
+font-size: 20px;
+font-weight:400
+</string>
+      </property>
+      <property name="text">
+       <string>Тип батареи</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <zorder>Background1Lab</zorder>
+     <zorder>GrimmL1</zorder>
+     <zorder>BACK_BTNLabel</zorder>
+     <zorder>SLEEP_BTNLabel_2</zorder>
+     <zorder>Hibernate_BTNLabel_3</zorder>
+     <zorder>Back</zorder>
+     <zorder>HibernateButton</zorder>
+     <zorder>SleepButton</zorder>
+     <zorder>Info_table</zorder>
+     <zorder>PowerSavingModeLabel</zorder>
+     <zorder>BatteryTimeLabel</zorder>
+     <zorder>BatteryLevelLabel</zorder>
+     <zorder>PowerSourceLabel</zorder>
+     <zorder>BatteryTypeLabel</zorder>
     </widget>
    </widget>
   </widget>
