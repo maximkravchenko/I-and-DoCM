@@ -20,6 +20,7 @@ public:
     int batteryLifeSeconds() const; // время работы оставшееся
     int batteryFullLifeSeconds() const; // время работы от полной зарядки
     bool isCharging() const { return m_charging; }
+    QString batteryChemistry() const { return m_batteryChemistry; }
 
 public slots:
     void updateStatus();
@@ -32,6 +33,8 @@ signals:
 
 private:
     QTimer updateTimer;
+    QString m_batteryChemistry; // строка с химическим составом
+    QString queryBatteryChemistry() const; // приватная функция для Windows API
 #ifdef Q_OS_WIN
     SYSTEM_POWER_STATUS status;
 #endif

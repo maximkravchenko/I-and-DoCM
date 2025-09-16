@@ -192,7 +192,8 @@ void MainWindow::updateBatteryUI()
     ui->PowerSavingModeLabel->setText("Режим энергосбережения: " + savingMode);
 
     // ------------------ Тип аккумулятора -----------------
-    ui->BatteryTypeLabel->setText("Тип аккумулятора: " + batteryMonitor->batteryType());
+    ui->BatteryTypeLabel->setText("Тип аккумулятора: " + batteryMonitor->batteryChemistry());
+
 }
 
 
