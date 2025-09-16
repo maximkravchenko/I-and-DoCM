@@ -9,11 +9,13 @@
 #include <QPointer>
 #include <functional>
 
+// Анимация
 struct Animation {
     QVector<QPixmap> frames;
-    QMap<int,int> pauseFrames; // кадр -> миллисекунды паузы
-    bool loop = false;         // зацикливать или нет
+    QMap<int,int> pauseFrames;
+    bool loop = false;
 };
+
 
 class AnimationPlayer : public QObject
 {
@@ -21,24 +23,35 @@ class AnimationPlayer : public QObject
 public:
     explicit AnimationPlayer(QLabel* targetLabel, QObject *parent = nullptr);
 
+    // Добавление новой анимации к объекту
     void addAnimation(const QString& name, const Animation& anim);
-    void playAnimation(const QString& name); // временная анимация
-    void setLoopAnimation(const QVector<QPixmap>& frames); // основной зацикленный луп
+    // Запуск анимации
+    void playAnimation(const QString& name);
+    // Установка крговой анимации
+    void setLoopAnimation(const QVector<QPixmap>& frames);
+    // Вызов действия после проигрыша анимации
     void playSequence(const QStringList& names, std::function<void()> onFinish = {});
-    void start(); // запуск таймера
-    void stop();  // остановка анимации
+
+    // Контроль таймера
+    void start();
+    void stop();
 
 signals:
+    // Сигнал о том, что анимация закончена
     void animationFinished(const QString& name) const;
 
 private slots:
+    // Слот для обновления таймера
     void updateFrame();
+    // Слот воспроизведения после конца паузы
     void resumeFromPause();
 
 private:
+    // Отрисовка кадра на QLable
     void renderFrame(const QPixmap& pix);
 
-    QPointer<QLabel> label;       // Non-owning
+    // поля состояний
+    QPointer<QLabel> label;
     QTimer timer;
     QTimer pauseTimer;
 
@@ -47,9 +60,9 @@ private:
 
     QString currentAnimationName;
     QMap<QString, Animation> animations;
-    QVector<QPixmap> loopFrames;  // основной луп
+    QVector<QPixmap> loopFrames;
 
-    // Для playSequence
+    // Поля для очереди
     QStringList sequenceQueue;
     std::function<void()> sequenceCallback;
 };

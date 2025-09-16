@@ -26,9 +26,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void onPageChanged(int index);
+    void onPageChanged(int index); // Когда происходит смена окон
     void updateBatteryUI(); // слот для обновления UI батареи
-    void updateChargingAnimation(bool charging);
+    void updateChargingAnimation(bool charging); // Обновление анимац при смене тпа питания
 
 private:
     Ui::MainWindow *ui;
@@ -37,7 +37,7 @@ private:
     AnimationPlayer* characterL1Anim;
     AnimationPlayer* backgroundAnim;
 
-    BatteryMonitor* batteryMonitor; // <--- добавлено
+    BatteryMonitor* batteryMonitor;
 
     // Метки и кнопки для батареи
     QLabel* powerSourceLabel;

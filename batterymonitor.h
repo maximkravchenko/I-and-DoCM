@@ -12,7 +12,7 @@ class BatteryMonitor : public QObject
     Q_OBJECT
 public:
     explicit BatteryMonitor(QObject *parent = nullptr);
-
+    // ----------------- публичный API (читатели) -----------------
     QString powerSource() const;
     QString batteryType() const;
     int batteryLevel() const; // %
@@ -28,7 +28,7 @@ public slots:
 
 signals:
     void statusChanged(); // сигнал для UI, когда данные обновились
-    void chargingChanged(bool charging); // новый сигнал
+    void chargingChanged(bool charging); // Сигнал когда подключение сети меняется
 
 private:
     QTimer updateTimer;

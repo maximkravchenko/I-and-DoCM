@@ -10,10 +10,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // -------------------- Инициализация BatteryMonitor --------------------
+    // -------------------- Инициализация Мониторинна Батареи --------------------
     batteryMonitor = new BatteryMonitor(this);
 
-    // Привязка UI (создать соответствующие QLabel и QPushButton в .ui)
+    // Подвязываем
     powerSourceLabel = ui->PowerSourceLabel;
     batteryLevelLabel = ui->BatteryLevelLabel;
     powerSavingLabel = ui->PowerSavingModeLabel;
@@ -45,67 +45,59 @@ MainWindow::MainWindow(QWidget *parent)
     // Подключение анимации к label
     characterAnim = new AnimationPlayer(ui->CharacterLabel, this);
     backgroundAnim = new AnimationPlayer(ui->BackgroundLabel, this);
-// -------------------------------------------------------------------------- Анимации L1 Window
-    characterL1Anim = new AnimationPlayer(ui->GrimmL1, this);
 
-    // Установка анимации которая будет циклом
     characterAnim->setLoopAnimation(getLoopFrames());
     backgroundAnim->setLoopAnimation(getBackgroundFrames());
-
+// -------------------------------------------------------------------------- Анимации L1 Window
+    characterL1Anim = new AnimationPlayer(ui->GrimmL1, this);
+    //Цикловая Анимация
     characterL1Anim->setLoopAnimation(getLoopFrames());
 
-    // Установка отдельной анимации ПОКЛОН
+// -------------------------------------------------------------------------- Отдельные анимации
+    //ПОКЛОН
     Animation reveranceAnim;
     reveranceAnim.frames = getReveranceFrames();
     reveranceAnim.loop = false;
     characterAnim->addAnimation("reverance", reveranceAnim);
     characterL1Anim->addAnimation("reverance", reveranceAnim);
-    // Установка анимации ИНТРО
+    //ИНТРО
     Animation introAnim;
     introAnim.frames = getIntroFrames();
     introAnim.loop = false;
     characterAnim->addAnimation("intro", introAnim);
     characterL1Anim->addAnimation("intro", introAnim);
-    // Установка отдельной плащ
-    Animation cloakAnim;
-    cloakAnim.frames = getCloakFrames();
-    cloakAnim.loop = false;
-    characterAnim->addAnimation("cloak", cloakAnim);
-    // Установка отдельной анимации Щелчек
+    //ЩЕЛЧЕК
     Animation handsOutAnim;
     handsOutAnim.frames = getHandsOutFrames();
     handsOutAnim.loop = false;
     characterAnim->addAnimation("handsOut", handsOutAnim);
     characterL1Anim->addAnimation("handsOut", handsOutAnim);
-    // Установка отдельной анимации Интро зарядки
+    //ИНТРО ЗАРЯДКА
     Animation IntroChargingAnim;
     IntroChargingAnim.frames = getIntroChargingFrames();
     IntroChargingAnim.loop = false;
     characterL1Anim->addAnimation("introCharging", IntroChargingAnim);
+    //ОУТРО ЗАРЯДКА
     Animation OutroChargingAnim;
     OutroChargingAnim.frames = getOutroChargingFrames();
     OutroChargingAnim.loop = false;
     characterL1Anim->addAnimation("outroCharging", OutroChargingAnim);
 
 
-
-    // Начало анимации персонажа
+// -------------------------------------------------------------------------- Запуск анимаций
     characterAnim->playAnimation("intro");
-    characterL1Anim->playAnimation("intro");
     characterAnim->start();
     characterL1Anim->start();
     backgroundAnim->start();
 
-
-    // Запуск анимации по кнопке
+// ---------- ПЕРЕХОД МЕЖДУ ОКНАМИ------------------------
+    //Main->L1
     connect(ui->Lab1BTN, &QPushButton::clicked, this, [this](){
         characterAnim->playSequence({"reverance", "handsOut"}, [this](){
             ui->stackedWidget->setCurrentIndex(1);
         });
     });
-
-
-
+    //L1->Main
     connect(ui->Back, &QPushButton::clicked, this, [=]() {
         characterL1Anim->playSequence({"reverance", "intro"}, [this](){
             ui->GrimmL1->hide();
@@ -122,7 +114,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
+// Действия при смене страницы
 void MainWindow::onPageChanged(int index)
 {
     switch (index) {
@@ -134,14 +126,14 @@ void MainWindow::onPageChanged(int index)
         ui->GrimmL1->hide();ui->HibernateButton->hide();ui->Hibernate_BTNLabel_3->hide();ui->Info_table->hide();ui->PowerSavingModeLabel->hide();
         ui->PowerSourceLabel->hide();ui->SLEEP_BTNLabel_2->hide();ui->SleepButton->hide();
 
-        // 1 кадр (чёрный фон)
+        // 1 кадр
         ui->Background1Lab->setPixmap(QPixmap(":/bg/resources/img/Background/1Lab/Bg1frame.png"));
 
-        // Через 1 сек включаем прожектор
+        // Через 1 сек второй кадр
         QTimer::singleShot(1000, this, [this]() {
             ui->Background1Lab->setPixmap(QPixmap(":/bg/resources/img/Background/1Lab/Bg2frame.png"));
 
-            // Через ещё 1 сек показываем персонажа
+            // Через 1 сек персонажа
             QTimer::singleShot(1000, this, [this]() {
                 ui->GrimmL1->show();
 
@@ -169,7 +161,7 @@ void MainWindow::onPageChanged(int index)
 void MainWindow::updateBatteryUI()
 {
     // ------------------ Источник питания ------------------
-    powerSourceLabel->setText("Источник питания: " + batteryMonitor->powerSource());
+    ui->PowerSourceLabel->setText("Источник питания: " + batteryMonitor->powerSource());
 
     // ------------------ Уровень заряда -------------------
     batteryLevelLabel->setText("Заряд: " + QString::number(batteryMonitor->batteryLevel()) + "%");
@@ -202,8 +194,6 @@ void MainWindow::updateBatteryUI()
     // ------------------ Тип аккумулятора -----------------
     ui->BatteryTypeLabel->setText("Тип аккумулятора: " + batteryMonitor->batteryType());
 }
-
-
 
 
 void MainWindow::updateChargingAnimation(bool charging)
