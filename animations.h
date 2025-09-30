@@ -20,6 +20,34 @@ inline QVector<QPixmap> getIntroFrames() {
     }();
     return f;
 }
+
+inline QVector<QPixmap> getBackFrames() {
+    static QVector<QPixmap> f = []{
+        QVector<QPixmap> frames;
+        frames.append(QPixmap(":/animations/back/resources/animations/grimm/back/Death Stun_000.png"));
+        frames.append(QPixmap(":/animations/back/resources/animations/grimm/back/Death Stun_001.png"));
+        frames.append(QPixmap(":/animations/back/resources/animations/grimm/back/Death Stun_002.png"));
+        return frames;
+    }();
+    return f;
+}
+
+inline QVector<QPixmap> getOutroFrames() {
+    static QVector<QPixmap> f = []{
+        QVector<QPixmap> frames;
+        frames.append(QPixmap(":/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_007.png"));
+        frames.append(QPixmap(":/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_006.png"));
+        frames.append(QPixmap(":/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_005.png"));
+        frames.append(QPixmap(":/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_004.png"));
+        frames.append(QPixmap(":/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_003.png"));
+        frames.append(QPixmap(":/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_002.png"));
+        frames.append(QPixmap(":/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_001.png"));
+        frames.append(QPixmap(":/grimm_animation/t+s/resources/animations/grimm/teleport+stay/TeleToIdle_000.png"));
+        return frames;
+    }();
+    return f;
+}
+
 inline QVector<QPixmap> getLoopFrames() {
     static QVector<QPixmap> f = []{
         QVector<QPixmap> frames;
@@ -76,6 +104,16 @@ inline QVector<QPixmap>& getCloakFrames() {
         frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_005.png"));
         frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_006.png"));
         frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_007.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
+        frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
         frames.append(QPixmap(":/grimm_animation/open_cloak/resources/animations/grimm/open_cloak/Absorb Start_008.png"));
         return frames;
     }();

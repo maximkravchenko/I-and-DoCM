@@ -135,7 +135,8 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background: transparent;</string>
+       <string notr="true">background: transparent;
+</string>
       </property>
       <property name="text">
        <string/>
@@ -412,11 +413,132 @@
      <zorder>curtainR_2</zorder>
      <zorder>curtainR</zorder>
      <zorder>Lab1BTN</zorder>
-     <zorder>Lab3BTN</zorder>
      <zorder>Lab5BTN</zorder>
      <zorder>Lab2BTN</zorder>
      <zorder>Lab6BTN</zorder>
      <zorder>Lab4BTN</zorder>
+     <zorder>Lab3BTN</zorder>
+    </widget>
+    <widget class="QWidget" name="page">
+     <widget class="QLabel" name="BG_Lab_3">
+      <property name="geometry">
+       <rect>
+        <x>-8</x>
+        <y>-1</y>
+        <width>1111</width>
+        <height>681</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/bg/resources/img/Background/1Lab/backgroundClear4k.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="GrimmL2">
+      <property name="geometry">
+       <rect>
+        <x>-70</x>
+        <y>20</y>
+        <width>521</width>
+        <height>711</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/grimm_animation/stay/resources/animations/grimm/stay/Absorb End_001.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="L2backToMain">
+      <property name="geometry">
+       <rect>
+        <x>910</x>
+        <y>470</y>
+        <width>131</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>80</y>
+        <width>621</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/Lab1/infoboard.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="backBTNL2">
+      <property name="geometry">
+       <rect>
+        <x>900</x>
+        <y>470</y>
+        <width>151</width>
+        <height>130</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="img.qrc">:/labbtn/img/resources/img/lab_BTN/Lab1/Back.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="PCITable">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>110</y>
+        <width>481</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="gridStyle">
+       <enum>Qt::PenStyle::DashLine</enum>
+      </property>
+      <property name="columnCount">
+       <number>2</number>
+      </property>
+      <attribute name="horizontalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <column/>
+      <column/>
+     </widget>
+     <zorder>BG_Lab_3</zorder>
+     <zorder>GrimmL2</zorder>
+     <zorder>label</zorder>
+     <zorder>PCITable</zorder>
+     <zorder>backBTNL2</zorder>
+     <zorder>L2backToMain</zorder>
     </widget>
     <widget class="QWidget" name="Lab1_Page">
      <widget class="QPushButton" name="Back">

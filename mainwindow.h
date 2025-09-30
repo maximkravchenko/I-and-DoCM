@@ -5,9 +5,13 @@
 #include <QPixmap>
 #include <QVector>
 #include "animationplayer.h"
-#include "batterymonitor.h" // <--- добавлено
+#include "batterymonitor.h"
 #include <QPushButton>
 #include <QLabel>
+#include <QPropertyAnimation>
+#include <QMap>
+#include "pcideviceswidget.h"
+
 
 #include <QMainWindow>
 
@@ -35,6 +39,7 @@ private:
 
     AnimationPlayer* characterAnim;
     AnimationPlayer* characterL1Anim;
+    AnimationPlayer* characterL2Anim;
     AnimationPlayer* backgroundAnim;
 
     BatteryMonitor* batteryMonitor;
@@ -46,6 +51,9 @@ private:
     QLabel* batteryTimeLabel;
     QPushButton* sleepBtn;
     QPushButton* hibernateBtn;
+    QMap<QWidget*, QRect> m_savedGeometries;
+
+    PciDevicesWidget *pciDevicesWidget;
 };
 
 #endif

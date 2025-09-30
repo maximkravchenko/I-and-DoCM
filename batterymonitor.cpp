@@ -1,7 +1,7 @@
 #include "batterymonitor.h"
 #include <QDebug>
 #include <windows.h>
-#include <powrprof.h> // Для перехода в спящий/гибернацию
+#include <powrprof.h>
 #include <setupapi.h>
 #include <initguid.h>
 #include <batclass.h>
@@ -21,10 +21,8 @@ BatteryMonitor::BatteryMonitor(QObject *parent)
 void BatteryMonitor::updateStatus()
 {
 #ifdef Q_OS_WIN
-    //SYSTEM_POWER_STATUS oldStatus = status;
     if (GetSystemPowerStatus(&status))
     {
-        // обновляем химию аккумулятора (раз в update)
         m_batteryChemistry = queryBatteryChemistry();
 
         emit statusChanged();
@@ -47,15 +45,6 @@ QString BatteryMonitor::powerSource() const
     case 1: return "Сеть";
     default: return "Неизвестно";
     }
-#else
-    return "Не поддерживается";
-#endif
-}
-
-QString BatteryMonitor::batteryType() const
-{
-#ifdef Q_OS_WIN
-    return "Аккумулятор"; // стандартное обозначение в Windows
 #else
     return "Не поддерживается";
 #endif

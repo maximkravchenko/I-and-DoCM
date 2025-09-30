@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "animationplayer.h"
 #include "animations.h"
+#include "iostream"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -33,6 +34,16 @@ MainWindow::MainWindow(QWidget *parent)
     // Начальное обновление UI
     updateBatteryUI();
 
+    // Инициализация виджета PCI
+    pciDevicesWidget = new PciDevicesWidget(ui->PCITable, this);
+
+    // Вставляем таблицу виджета в UI QTableWidget
+    // Можно просто использовать существующий QTableWidget, заменяя внутренние данные
+    //pciDevicesWidget->setParent(ui->PCITable);
+    //pciDevicesWidget->resize(ui->PCITable->size());
+    //pciDevicesWidget->show();
+
+
 
     connect(ui->stackedWidget, &QStackedWidget::currentChanged, this, &MainWindow::onPageChanged);
     this->setStatusBar(nullptr);
@@ -52,6 +63,10 @@ MainWindow::MainWindow(QWidget *parent)
     characterL1Anim = new AnimationPlayer(ui->GrimmL1, this);
     //Цикловая Анимация
     characterL1Anim->setLoopAnimation(getLoopFrames());
+// -------------------------------------------------------------------------- Анимации L2 Window
+    characterL2Anim = new AnimationPlayer(ui->GrimmL2, this);
+    //Цикловая Анимация
+    characterL2Anim->setLoopAnimation(getLoopFrames());
 
 // -------------------------------------------------------------------------- Отдельные анимации
     //ПОКЛОН
@@ -66,6 +81,17 @@ MainWindow::MainWindow(QWidget *parent)
     introAnim.loop = false;
     characterAnim->addAnimation("intro", introAnim);
     characterL1Anim->addAnimation("intro", introAnim);
+    characterL2Anim->addAnimation("intro", introAnim);
+    //БЭК
+    Animation backAnim;
+    backAnim.frames = getBackFrames();
+    backAnim.loop = false;
+    characterL2Anim->addAnimation("back", backAnim);
+    //ОУТРО
+    Animation outroAnim;
+    outroAnim.frames = getOutroFrames();
+    outroAnim.loop = false;
+    characterL1Anim->addAnimation("outro", outroAnim);
     //ЩЕЛЧЕК
     Animation handsOutAnim;
     handsOutAnim.frames = getHandsOutFrames();
@@ -82,29 +108,91 @@ MainWindow::MainWindow(QWidget *parent)
     OutroChargingAnim.frames = getOutroChargingFrames();
     OutroChargingAnim.loop = false;
     characterL1Anim->addAnimation("outroCharging", OutroChargingAnim);
+    //Плащ
+    Animation CloackAnim;
+    CloackAnim.frames = getCloakFrames();
+    CloackAnim.loop = false;
+    characterAnim->addAnimation("cloackAnim", CloackAnim);
+
 
 
 // -------------------------------------------------------------------------- Запуск анимаций
     characterAnim->playAnimation("intro");
     characterAnim->start();
     characterL1Anim->start();
+    characterL2Anim->start();
     backgroundAnim->start();
 
 // ---------- ПЕРЕХОД МЕЖДУ ОКНАМИ------------------------
     //Main->L1
     connect(ui->Lab1BTN, &QPushButton::clicked, this, [this](){
         characterAnim->playSequence({"reverance", "handsOut"}, [this](){
-            ui->stackedWidget->setCurrentIndex(1);
+            ui->stackedWidget->setCurrentIndex(2);
         });
     });
     //L1->Main
     connect(ui->Back, &QPushButton::clicked, this, [=]() {
-        characterL1Anim->playSequence({"reverance", "intro"}, [this](){
+        characterL1Anim->playSequence({"reverance", "outro"}, [this](){
             ui->GrimmL1->hide();
             QTimer::singleShot(500, this, [this]() {
                 ui->stackedWidget->setCurrentIndex(0);
             });
 
+        });
+    });
+    //Main->L2
+    connect(ui->Lab2BTN, &QPushButton::clicked, this, [this]() {
+        // защитный указатель на лейбл
+        QPointer<QLabel> label = ui->CharacterLabel;
+        if (!label) return;
+
+        // сохраним исходную геометрию (если ещё не сохранена)
+        if (!m_savedGeometries.contains(label)) {
+            m_savedGeometries[label] = label->geometry();
+        }
+        const QRect origGeom = m_savedGeometries[label];
+
+        // вычислим новую геометрию (увеличение в 1.5 раза по центру)
+        const qreal scale = 1.8; // можно поставить 3.0 если нужен больший zoom
+        const int newW = static_cast<int>(origGeom.width() * scale);
+        const int newH = static_cast<int>(origGeom.height() * scale);
+        const QPoint center = origGeom.center();
+        const QRect bigGeom(center.x() - newW/2, center.y() - newH/2, newW, newH);
+
+        // Немедленно устанавливаем увеличенную геометрию (без анимации)
+        label->setGeometry(bigGeom);
+
+        // Просим цикл событий нарисовать обновление до старта анимации персонажа.
+        // Вместо QCoreApplication::processEvents() используем singleShot(0) — безопаснее.
+        QTimer::singleShot(0, this, [this, label, origGeom]() {
+            if (!label) {
+                this->setEnabled(true);
+                return;
+            }
+
+            // Теперь запускаем последовательность анимаций персонажа.
+            // ВАЖНО: убедись, что имя анимации написано точно так же, как при добавлении.
+            // В твоём коде есть getCloakFrames() — имя должно совпадать с тем, что ты добавляешь.
+            characterAnim->playSequence({"cloackAnim"}, [this, label, origGeom]() {
+                // Переключаем страницу (индекс ставь тот, который нужен)
+                const int targetIndex = 1; // <- заменить в случае необходимости
+                ui->stackedWidget->setCurrentIndex(targetIndex);
+
+                // Восстанавливаем исходную геометрию сразу (без анимации)
+                if (label) {
+                    label->setGeometry(origGeom);
+                }
+
+                // Включаем интерфейс обратно
+                this->setEnabled(true);
+            });
+        });
+    });
+    //L2->Main
+    connect(ui->L2backToMain, &QPushButton::clicked, this, [=]() {
+        characterL2Anim->playSequence({"back"}, [this](){
+            ui->stackedWidget->setCurrentIndex(0);
+            pciDevicesWidget->refreshDevices();
         });
     });
 }
@@ -121,7 +209,7 @@ void MainWindow::onPageChanged(int index)
     case 0: // Главная страница
         characterAnim->playAnimation("intro");
         break;
-    case 1: // Вторая страница
+    case 2: // Вторая страница
         ui->BACK_BTNLabel->hide();ui->Back->hide();ui->BatteryLevelLabel->hide();ui->BatteryTimeLabel->hide();ui->BatteryTypeLabel->hide();
         ui->GrimmL1->hide();ui->HibernateButton->hide();ui->Hibernate_BTNLabel_3->hide();ui->Info_table->hide();ui->PowerSavingModeLabel->hide();
         ui->PowerSourceLabel->hide();ui->SLEEP_BTNLabel_2->hide();ui->SleepButton->hide();
@@ -151,7 +239,10 @@ void MainWindow::onPageChanged(int index)
             });
         });
         break;
-    // Добавляем case для каждой страницы
+    case 1: // Лаба 2
+        characterL2Anim->playAnimation("intro");
+        pciDevicesWidget->refreshDevices();
+        break;
     default:
         characterAnim->playAnimation("intro"); // запасной вариант
         break;
@@ -170,13 +261,13 @@ void MainWindow::updateBatteryUI()
     QString msg;
     if (batteryMonitor->isCharging()) {
         if (batteryMonitor->batteryLevel() >= 100) {
-            msg = "Аккумулятор полностью заряжен";
+            //msg = "Аккумулятор полностью заряжен";
         } else {
             int remainingSec = batteryMonitor->batteryFullLifeSeconds();
             if (remainingSec < 0) remainingSec = 0;
             int hours = remainingSec / 3600;
             int mins = (remainingSec % 3600) / 60;
-            msg = QString("До полной зарядки осталось: %1 ч %2 мин").arg(hours).arg(mins);
+            //msg = QString("Батарея заряжается").arg(hours).arg(mins);
         }
     } else {
         int remainingSec = batteryMonitor->batteryLifeSeconds();

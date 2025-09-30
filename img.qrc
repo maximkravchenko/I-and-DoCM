@@ -183,4 +183,9 @@
         <file>resources/animations/grimm/charging/loop/frame2.png</file>
         <file>resources/animations/grimm/charging/loop/frame3.png</file>
     </qresource>
+    <qresource prefix="/animations/back">
+        <file>resources/animations/grimm/back/Death Stun_000.png</file>
+        <file>resources/animations/grimm/back/Death Stun_001.png</file>
+        <file>resources/animations/grimm/back/Death Stun_002.png</file>
+    </qresource>
 </RCC>
