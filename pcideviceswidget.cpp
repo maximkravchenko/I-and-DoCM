@@ -4,8 +4,6 @@
 #include <QDebug>
 #include <QMessageBox>
 
-// Для MinGW убираем pragma comment и добавляем в .pro файл LIBS += -lsetupapi
-
 PciDevicesWidget::PciDevicesWidget(QTableWidget *tableWidget, QObject *parent)
     : QObject(parent), m_tableWidget(tableWidget)
 {
@@ -17,8 +15,8 @@ void PciDevicesWidget::setupTable()
     if (!m_tableWidget) return;
 
     // Настраиваем таблицу
-    m_tableWidget->setColumnCount(2);
-    m_tableWidget->setHorizontalHeaderLabels(QStringList() << "Vendor ID" << "Device ID");
+    m_tableWidget->setColumnCount(3);
+    m_tableWidget->setHorizontalHeaderLabels(QStringList() << "Vendor ID" << "Device ID" << "Описание");
 
     // Настройка внешнего вида таблицы
     m_tableWidget->horizontalHeader()->setStretchLastSection(true);
@@ -27,6 +25,11 @@ void PciDevicesWidget::setupTable()
     m_tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     m_tableWidget->setShowGrid(true);
     m_tableWidget->setStyleSheet("QTableWidget { gridline-color: #d0d0d0; }");
+
+    // Устанавливаем начальные размеры колонок
+    m_tableWidget->setColumnWidth(0, 100);
+    m_tableWidget->setColumnWidth(1, 100);
+    // Описание будет растягиваться, так как последняя колонка и setStretchLastSection(true)
 }
 
 void PciDevicesWidget::refreshDevices()
@@ -70,9 +73,20 @@ void PciDevicesWidget::populatePciDevices()
     // Перебираем все устройства
     while (SetupDiEnumDeviceInfo(deviceInfoSet, deviceIndex, &deviceInfoData)) {
         WCHAR hardwareID[1024];
+        WCHAR deviceDesc[1024];
         DWORD requiredSize = 0;
+        QString deviceDescStr = "Неизвестно";
 
-        // Получаем Hardware ID устройства
+        // Пытаемся получить описание устройства
+        if (SetupDiGetDeviceRegistryPropertyW(deviceInfoSet, &deviceInfoData,
+                                              SPDRP_DEVICEDESC, NULL,
+                                              (PBYTE)deviceDesc, sizeof(deviceDesc) - sizeof(WCHAR),
+                                              &requiredSize)) {
+            deviceDesc[sizeof(deviceDesc)/sizeof(WCHAR) - 1] = L'\0';
+            deviceDescStr = QString::fromWCharArray(deviceDesc);
+        }
+
+        // Затем получаем HardwareID
         if (SetupDiGetDeviceRegistryPropertyW(deviceInfoSet, &deviceInfoData,
                                               SPDRP_HARDWAREID, NULL,
                                               (PBYTE)hardwareID, sizeof(hardwareID) - sizeof(WCHAR),
@@ -113,9 +127,10 @@ void PciDevicesWidget::populatePciDevices()
 
                     m_tableWidget->setItem(row, 0, new QTableWidgetItem(vendorID.toUpper()));
                     m_tableWidget->setItem(row, 1, new QTableWidgetItem(deviceID.toUpper()));
+                    m_tableWidget->setItem(row, 2, new QTableWidgetItem(deviceDescStr));
                     devicesFound++;
 
-                    qDebug() << "Добавлено устройство: VendorID:" << vendorID << "DeviceID:" << deviceID;
+                    qDebug() << "Добавлено устройство: VendorID:" << vendorID << "DeviceID:" << deviceID << "Описание:" << deviceDescStr;
                 } else {
                     qDebug() << "Не удалось извлечь ID из:" << hardwareIDStr;
                 }
