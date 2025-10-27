@@ -127,7 +127,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Main->L1
     connect(ui->Lab1BTN, &QPushButton::clicked, this, [this](){
         characterAnim->playSequence({"reverance", "handsOut"}, [this](){
-            ui->stackedWidget->setCurrentIndex(2);
+            ui->stackedWidget->setCurrentIndex(1);
         });
     });
     //L1->Main
@@ -175,7 +175,7 @@ MainWindow::MainWindow(QWidget *parent)
             // В твоём коде есть getCloakFrames() — имя должно совпадать с тем, что ты добавляешь.
             characterAnim->playSequence({"cloackAnim"}, [this, label, origGeom]() {
                 // Переключаем страницу (индекс ставь тот, который нужен)
-                const int targetIndex = 1; // <- заменить в случае необходимости
+                const int targetIndex = 2; // <- заменить в случае необходимости
                 ui->stackedWidget->setCurrentIndex(targetIndex);
 
                 // Восстанавливаем исходную геометрию сразу (без анимации)
@@ -195,6 +195,15 @@ MainWindow::MainWindow(QWidget *parent)
             pciDevicesWidget->refreshDevices();
         });
     });
+
+    connect(ui->Lab3BTN, &QPushButton::clicked, this, [this](){
+        ui->stackedWidget->setCurrentIndex(3);
+    });
+    connect(ui->Back_BTN_NoLab, &QPushButton::clicked, this, [this](){
+        ui->stackedWidget->setCurrentIndex(0);
+    });
+
+
 }
 
 MainWindow::~MainWindow()
@@ -209,7 +218,7 @@ void MainWindow::onPageChanged(int index)
     case 0: // Главная страница
         characterAnim->playAnimation("intro");
         break;
-    case 2: // Вторая страница
+    case 1: // Вторая страница
         ui->BACK_BTNLabel->hide();ui->Back->hide();ui->BatteryLevelLabel->hide();ui->BatteryTimeLabel->hide();ui->BatteryTypeLabel->hide();
         ui->GrimmL1->hide();ui->HibernateButton->hide();ui->Hibernate_BTNLabel_3->hide();ui->Info_table->hide();ui->PowerSavingModeLabel->hide();
         ui->PowerSourceLabel->hide();ui->SLEEP_BTNLabel_2->hide();ui->SleepButton->hide();
@@ -239,7 +248,7 @@ void MainWindow::onPageChanged(int index)
             });
         });
         break;
-    case 1: // Лаба 2
+    case 2: // Лаба 2
         characterL2Anim->playAnimation("intro");
         pciDevicesWidget->refreshDevices();
         break;
