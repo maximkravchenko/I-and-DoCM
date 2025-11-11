@@ -1,0 +1,15 @@
+[submodule "protobuf"]
+	path = vendor/github.com/golang/protobuf
+	url = https://github.com/golang/protobuf.git
+[submodule "net"]
+	path = vendor/golang.org/x/net
+	url = https://go.googlesource.com/net
+[submodule "grpc"]
+	path = vendor/google.golang.org/grpc
+	url = https://github.com/grpc/grpc-go
+[submodule "gopass"]
+	path = vendor/github.com/howeyc/gopass
+	url = https://github.com/howeyc/gopass
+[submodule "crypto"]
+	path = vendor/golang.org/x/crypto
+	url = https://go.googlesource.com/crypto

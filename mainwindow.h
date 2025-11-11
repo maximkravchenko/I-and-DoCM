@@ -11,6 +11,7 @@
 #include <QPropertyAnimation>
 #include <QMap>
 #include "pcideviceswidget.h"
+#include <camerahandler.h>
 
 
 #include <QMainWindow>
@@ -34,12 +35,16 @@ private slots:
     void updateBatteryUI(); // слот для обновления UI батареи
     void updateChargingAnimation(bool charging); // Обновление анимац при смене тпа питания
 
+protected:
+    bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
+
 private:
     Ui::MainWindow *ui;
 
     AnimationPlayer* characterAnim;
     AnimationPlayer* characterL1Anim;
     AnimationPlayer* characterL2Anim;
+    AnimationPlayer* characterL4Anim;
     AnimationPlayer* backgroundAnim;
 
     BatteryMonitor* batteryMonitor;
@@ -54,6 +59,8 @@ private:
     QMap<QWidget*, QRect> m_savedGeometries;
 
     PciDevicesWidget *pciDevicesWidget;
+
+    CameraHandler *cameraHandler;
 };
 
 #endif

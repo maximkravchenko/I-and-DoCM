@@ -4,12 +4,14 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
-QT += widgets
+QT += multimedia multimediawidgets
+
+QT += multimedia
 
 LIBS += -lPowrProf
 LIBS += -lsetupapi
 
-
+include(C:/Users/MaxiM/Documents/BSUIR/ИиУВМ/I-and-DoCM/libraries/qpm-master/qhotkey.pri)
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -18,6 +20,7 @@ LIBS += -lsetupapi
 SOURCES += \
     animationplayer.cpp \
     batterymonitor.cpp \
+    camerahandler.cpp \
     main.cpp \
     mainwindow.cpp \
     pcideviceswidget.cpp
@@ -26,6 +29,7 @@ HEADERS += \
     animationplayer.h \
     animations.h \
     batterymonitor.h \
+    camerahandler.h \
     mainwindow.h \
     pcideviceswidget.h
 

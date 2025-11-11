@@ -36,12 +36,24 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Инициализация виджета PCI
     pciDevicesWidget = new PciDevicesWidget(ui->PCITable, this);
+    
+    QVideoWidget *previewWidget = new QVideoWidget(ui->Lab4_Page);
+    previewWidget->hide();
+    previewWidget->setGeometry(QRect(320,150, 471, 301)); // Подкорректируйте позицию/размер под дизайн
 
-    // Вставляем таблицу виджета в UI QTableWidget
-    // Можно просто использовать существующий QTableWidget, заменяя внутренние данные
-    //pciDevicesWidget->setParent(ui->PCITable);
-    //pciDevicesWidget->resize(ui->PCITable->size());
-    //pciDevicesWidget->show();
+    QLabel *cameraInfoLabel = new QLabel(ui->Lab4_Page);
+    cameraInfoLabel->setGeometry(QRect(870, 160, 200, 300));
+    cameraInfoLabel->setStyleSheet("color: white; font-size: 17px;");
+    cameraInfoLabel->setWordWrap(true);
+    cameraInfoLabel->setText("Информация о камере...");
+
+    QLabel *statusLabel = new QLabel(ui->Lab4_Page);
+    statusLabel->setGeometry(QRect(870, 210, 161, 40 ));
+    statusLabel->setStyleSheet("color: lightgreen; font-size: 14px;");
+    statusLabel->setText("Статус камеры...");
+
+    // Инициализация CameraHandler с этими виджетами
+    cameraHandler = new CameraHandler(this, previewWidget, cameraInfoLabel, statusLabel, ui);
 
 
 
@@ -68,6 +80,11 @@ MainWindow::MainWindow(QWidget *parent)
     //Цикловая Анимация
     characterL2Anim->setLoopAnimation(getLoopFrames());
 
+// -------------------------------------------------------------------------- Анимации L1 Window
+    characterL4Anim = new AnimationPlayer(ui->GrimmL4, this);
+    //Цикловая Анимация
+    characterL4Anim->setLoopAnimation(getLoopFrames());
+
 // -------------------------------------------------------------------------- Отдельные анимации
     //ПОКЛОН
     Animation reveranceAnim;
@@ -75,12 +92,14 @@ MainWindow::MainWindow(QWidget *parent)
     reveranceAnim.loop = false;
     characterAnim->addAnimation("reverance", reveranceAnim);
     characterL1Anim->addAnimation("reverance", reveranceAnim);
+    characterL4Anim->addAnimation("reverance", reveranceAnim);
     //ИНТРО
     Animation introAnim;
     introAnim.frames = getIntroFrames();
     introAnim.loop = false;
     characterAnim->addAnimation("intro", introAnim);
     characterL1Anim->addAnimation("intro", introAnim);
+    characterL4Anim->addAnimation("intro", introAnim);
     characterL2Anim->addAnimation("intro", introAnim);
     //БЭК
     Animation backAnim;
@@ -91,13 +110,16 @@ MainWindow::MainWindow(QWidget *parent)
     Animation outroAnim;
     outroAnim.frames = getOutroFrames();
     outroAnim.loop = false;
+    characterAnim->addAnimation("outro", outroAnim);
     characterL1Anim->addAnimation("outro", outroAnim);
+    characterL4Anim->addAnimation("outro", outroAnim);
     //ЩЕЛЧЕК
     Animation handsOutAnim;
     handsOutAnim.frames = getHandsOutFrames();
     handsOutAnim.loop = false;
     characterAnim->addAnimation("handsOut", handsOutAnim);
     characterL1Anim->addAnimation("handsOut", handsOutAnim);
+    characterL4Anim->addAnimation("handsOut", handsOutAnim);
     //ИНТРО ЗАРЯДКА
     Animation IntroChargingAnim;
     IntroChargingAnim.frames = getIntroChargingFrames();
@@ -121,6 +143,7 @@ MainWindow::MainWindow(QWidget *parent)
     characterAnim->start();
     characterL1Anim->start();
     characterL2Anim->start();
+    characterL4Anim->start();
     backgroundAnim->start();
 
 // ---------- ПЕРЕХОД МЕЖДУ ОКНАМИ------------------------
@@ -199,16 +222,26 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->Lab3BTN, &QPushButton::clicked, this, [this](){
         ui->stackedWidget->setCurrentIndex(3);
     });
+
     connect(ui->Back_BTN_NoLab, &QPushButton::clicked, this, [this](){
         ui->stackedWidget->setCurrentIndex(0);
+    });
+// LMainn -> L4
+    connect(ui->Lab4BTN, &QPushButton::clicked, this, [this](){
+        characterAnim->playSequence({"reverance", "outro"}, [this](){
+            ui->stackedWidget->setCurrentIndex(4);
+        });
     });
 
 
 }
 
+
+
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete cameraHandler;
 }
 
 // Действия при смене страницы
@@ -252,6 +285,9 @@ void MainWindow::onPageChanged(int index)
         characterL2Anim->playAnimation("intro");
         pciDevicesWidget->refreshDevices();
         break;
+    case 4: // Lab4
+        //cameraHandler->startPreview();
+        break;
     default:
         characterAnim->playAnimation("intro"); // запасной вариант
         break;
@@ -270,13 +306,13 @@ void MainWindow::updateBatteryUI()
     QString msg;
     if (batteryMonitor->isCharging()) {
         if (batteryMonitor->batteryLevel() >= 100) {
-            //msg = "Аккумулятор полностью заряжен";
+            msg = "Аккумулятор полностью заряжен";
         } else {
             int remainingSec = batteryMonitor->batteryFullLifeSeconds();
             if (remainingSec < 0) remainingSec = 0;
             int hours = remainingSec / 3600;
             int mins = (remainingSec % 3600) / 60;
-            //msg = QString("Батарея заряжается").arg(hours).arg(mins);
+            msg = QString("До полной зарядки: %1 ч %2 мин").arg(hours).arg(mins);
         }
     } else {
         int remainingSec = batteryMonitor->batteryLifeSeconds();
@@ -296,6 +332,21 @@ void MainWindow::updateBatteryUI()
 
 }
 
+bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
+{
+    if (eventType == "windows_generic_MSG") {
+        MSG *msg = static_cast<MSG *>(message);
+        if (msg->message == WM_HOTKEY && msg->wParam == CameraHandler::HOTKEY_ID) {
+            show();  // Показываем окно
+            cameraHandler->stopVideo();
+            cameraHandler->unregisterHotkey();
+            cameraHandler->restoreVideoOutput();  // Восстанавливаем вывод!
+            *result = 0;
+            return true;
+        }
+    }
+    return QMainWindow::nativeEvent(eventType, message, result);
+}
 
 void MainWindow::updateChargingAnimation(bool charging)
 {

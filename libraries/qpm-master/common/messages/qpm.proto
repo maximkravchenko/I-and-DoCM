@@ -1,0 +1,190 @@
+syntax = "proto3";
+
+package messages;
+
+enum RepoType {
+	AUTO = 0;
+	GITHUB = 1;
+	GIT = 2;
+	MERCURIAL = 3;
+}
+
+// The values in this enum should correspond to an SPDX identifier
+enum LicenseType {
+	NONE = 0;
+	MIT = 1;
+	AGPL_3_0 = 2;
+	APACHE_2_0 = 3;
+	ARTISTIC_2_0 = 4;
+	BSD_2_CLAUSE = 5;
+	BSD_3_CLAUSE =6;
+	CC0_1_0 = 7;
+	EPL_1_0 = 8;
+	GPL_2_0 = 9;
+	GPL_3_0 = 10;
+	ISC = 11;
+	LGPL_2_1 = 12;
+	LGPL_3_0 = 13;
+	UNLICENSE = 14;
+	MPL_2_0 = 15;
+}
+
+enum MessageType {
+	INFO = 0;
+	WARNING = 1;
+	ERROR = 2;
+}
+
+message DependencyMessage {
+	MessageType type = 1;
+	string title = 2;
+	string body = 3;
+	bool prompt = 4;
+}
+
+message Package {
+
+	message Repository {
+		RepoType type = 1;
+		string url = 2;
+	}
+
+	message Version {
+		string label = 1;
+		string revision = 2;
+		string fingerprint = 3;
+	}
+
+	message Author {
+		string name = 1;
+		string email = 2;
+	}
+
+	string name = 1;
+	string description = 2;
+	Author author = 3;
+	Repository repository = 4;
+	Version version = 5;
+	repeated string dependencies = 6;
+	LicenseType license = 7;
+	string pri_filename = 8;
+	string webpage = 10;
+}
+
+message Dependency {
+	string name = 1;
+	Package.Repository repository = 2;
+	Package.Version version = 3;
+}
+
+message VersionInfo {
+	Package.Version version = 1;
+	string date_published = 2;
+}
+
+message SearchResult {
+	string name = 1;
+	string version = 2;
+	Package.Author author = 3;
+	string description = 4;
+	LicenseType license = 5;
+	string webpage = 6;
+}
+
+message InstallStats {
+	uint32 daily = 1;
+	uint32 weekly = 2;
+	uint32 monthly = 3;
+	uint32 yearly = 4;
+	uint32 total = 5;
+}
+
+message PingRequest {
+
+}
+
+message PingResponse {
+
+}
+
+message PublishRequest {
+	Package package_description = 1;
+	string token = 2;
+}
+
+message PublishResponse {
+
+}
+
+message DependencyRequest {
+	repeated string package_names = 1;
+	LicenseType compat_license = 4;
+}
+
+message DependencyResponse {
+	repeated Dependency dependencies = 1;
+	repeated DependencyMessage messages = 2;
+}
+
+message SearchRequest {
+	string package_name = 1;
+}
+
+message SearchResponse {
+	repeated SearchResult results = 1;
+}
+
+message ListRequest {
+}
+
+message ListResponse {
+	repeated SearchResult results = 1;
+}
+
+message LoginRequest {
+	string email = 1;
+	string password = 2;
+	bool create = 3;
+}
+
+message LoginResponse {
+	string token = 1;
+}
+
+message InfoRequest {
+	string package_name = 1;
+}
+
+message InfoResponse {
+	Package package = 1;
+	repeated VersionInfo versions = 2;
+	repeated Dependency dependencies = 3;
+	InstallStats install_stats = 4;
+}
+
+message LicenseRequest {
+	Package package = 1;
+}
+
+message LicenseResponse {
+	string body = 1;
+}
+
+service Qpm {
+
+	rpc Ping(PingRequest) returns (PingResponse) {}
+
+	rpc Publish(PublishRequest) returns (PublishResponse) {}
+
+	rpc GetDependencies(DependencyRequest) returns (DependencyResponse) {}
+
+	rpc Search(SearchRequest) returns (SearchResponse) {}
+
+	rpc List(ListRequest) returns (ListResponse) {}
+
+	rpc Login(LoginRequest) returns (LoginResponse) {}
+
+	rpc Info(InfoRequest) returns (InfoResponse) {}
+
+	rpc GetLicense(LicenseRequest) returns (LicenseResponse) {}
+}
