@@ -22,6 +22,14 @@ MainWindow::MainWindow(QWidget *parent)
     sleepBtn = ui->SleepButton;
     hibernateBtn = ui->HibernateButton;
 
+    usbWindow = new USBWindow(this);
+    connect(ui->Lab6BTN, &QPushButton::clicked, this, [this]() {
+        usbWindow->show();
+        usbWindow->raise();
+        usbWindow->activateWindow();
+    });
+
+
     // Обновляем UI при изменении статуса батареи
     connect(batteryMonitor, &BatteryMonitor::statusChanged, this, &MainWindow::updateBatteryUI);
     connect(batteryMonitor, &BatteryMonitor::chargingChanged, this, &MainWindow::updateChargingAnimation);

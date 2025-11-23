@@ -10,8 +10,10 @@ QT += multimedia
 
 LIBS += -lPowrProf
 LIBS += -lsetupapi
+LIBS += -lcfgmgr32
+LIBS += -lCfgmgr32
 
-include(C:/Users/MaxiM/Documents/BSUIR/ИиУВМ/I-and-DoCM/libraries/qpm-master/qhotkey.pri)
+
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -23,7 +25,8 @@ SOURCES += \
     camerahandler.cpp \
     main.cpp \
     mainwindow.cpp \
-    pcideviceswidget.cpp
+    pcideviceswidget.cpp \
+    usbwindow.cpp
 
 HEADERS += \
     animationplayer.h \
@@ -31,7 +34,8 @@ HEADERS += \
     batterymonitor.h \
     camerahandler.h \
     mainwindow.h \
-    pcideviceswidget.h
+    pcideviceswidget.h \
+    usbwindow.h
 
 FORMS += \
     mainwindow.ui

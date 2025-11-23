@@ -12,6 +12,7 @@
 #include <QMap>
 #include "pcideviceswidget.h"
 #include <camerahandler.h>
+#include "usbwindow.h"
 
 
 #include <QMainWindow>
@@ -61,6 +62,9 @@ private:
     PciDevicesWidget *pciDevicesWidget;
 
     CameraHandler *cameraHandler;
+
+    USBWindow *usbWindow;
+
 };
 
 #endif
