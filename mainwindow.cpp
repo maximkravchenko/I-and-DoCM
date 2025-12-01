@@ -29,6 +29,14 @@ MainWindow::MainWindow(QWidget *parent)
         usbWindow->activateWindow();
     });
 
+    // Создаем окно BluetoothApp
+    bluetoothApp = new BluetoothApp(this);
+    connect(ui->Lab6BTN, &QPushButton::clicked, this, [this]() {
+        bluetoothApp->show();
+        bluetoothApp->raise();
+        bluetoothApp->activateWindow();
+    });
+
 
     // Обновляем UI при изменении статуса батареи
     connect(batteryMonitor, &BatteryMonitor::statusChanged, this, &MainWindow::updateBatteryUI);

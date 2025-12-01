@@ -7,12 +7,22 @@ CONFIG += c++17
 QT += multimedia multimediawidgets
 
 QT += multimedia
+QT += bluetooth
 
-LIBS += -lPowrProf
-LIBS += -lsetupapi
-LIBS += -lcfgmgr32
-LIBS += -lCfgmgr32
+# Указание библиотек зависит от платформы
+win32 {
+    # MSVC использует .lib файлы напрямую
+    LIBS += -lPowrProf
+    LIBS += -lsetupapi
+    LIBS += -lCfgmgr32
 
+    # Обязательная библиотека для Windows API (User32.dll, Gdi32.dll, Kernel32.dll)
+    LIBS += -luser32
+    LIBS += -lgdi32
+    LIBS += -lole32
+    LIBS += -loleaut32
+    LIBS += -luuid
+}
 
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -22,6 +32,7 @@ LIBS += -lCfgmgr32
 SOURCES += \
     animationplayer.cpp \
     batterymonitor.cpp \
+    bluetoothapp.cpp \
     camerahandler.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -32,6 +43,7 @@ HEADERS += \
     animationplayer.h \
     animations.h \
     batterymonitor.h \
+    bluetoothapp.h \
     camerahandler.h \
     mainwindow.h \
     pcideviceswidget.h \

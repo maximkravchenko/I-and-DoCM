@@ -13,6 +13,7 @@
 #include "pcideviceswidget.h"
 #include <camerahandler.h>
 #include "usbwindow.h"
+#include "bluetoothapp.h"
 
 
 #include <QMainWindow>
@@ -64,6 +65,7 @@ private:
     CameraHandler *cameraHandler;
 
     USBWindow *usbWindow;
+    BluetoothApp *bluetoothApp;
 
 };
 
