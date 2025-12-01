@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     hibernateBtn = ui->HibernateButton;
 
     usbWindow = new USBWindow(this);
-    connect(ui->Lab6BTN, &QPushButton::clicked, this, [this]() {
+    connect(ui->Lab5BTN, &QPushButton::clicked, this, [this]() {
         usbWindow->show();
         usbWindow->raise();
         usbWindow->activateWindow();

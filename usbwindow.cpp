@@ -7,6 +7,7 @@
 #include <cfgmgr32.h>
 #include <initguid.h>
 #include <usbiodef.h>
+
 #endif
 
 USBWindow::USBWindow(QWidget *parent)
@@ -19,7 +20,7 @@ USBWindow::USBWindow(QWidget *parent)
     applyStyles();
 
 #ifdef Q_OS_WIN
-    // Register for device notifications (USB device interface)
+    // Register for device notifications
     DEV_BROADCAST_DEVICEINTERFACE notificationFilter;
     ZeroMemory(&notificationFilter, sizeof(notificationFilter));
     notificationFilter.dbcc_size = sizeof(DEV_BROADCAST_DEVICEINTERFACE);
@@ -31,13 +32,12 @@ USBWindow::USBWindow(QWidget *parent)
         &notificationFilter,
         DEVICE_NOTIFY_WINDOW_HANDLE
         );
-    if (!m_deviceNotifyHandle) {
-        addLogMessage("⚠ Не удалось зарегистрировать уведомления об устройствах", "#e67e22");
-    }
 #endif
 
+    // Initial scan
     QTimer::singleShot(100, this, &USBWindow::scanUSBDevices);
-    addLogMessage("=== USB Мониторинг запущен ===", "#0066cc");
+
+    addLogMessage("=== USB Мониторинг запущен ===", "white");
 }
 
 USBWindow::~USBWindow()
@@ -52,7 +52,10 @@ USBWindow::~USBWindow()
 void USBWindow::setupUI()
 {
     setWindowTitle("ЛР5: Мониторинг USB-устройств");
-    resize(900, 600);
+    setFixedSize(1101, 702);
+
+
+    setWindowIcon(QIcon(":/icons/app.ico"));
 
     QWidget *centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
@@ -61,19 +64,18 @@ void USBWindow::setupUI()
     mainLayout->setSpacing(15);
     mainLayout->setContentsMargins(20, 20, 20, 20);
 
+    // Title
     QLabel *titleLabel = new QLabel("Мониторинг USB-устройств", this);
     titleLabel->setAlignment(Qt::AlignCenter);
-    titleLabel->setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; padding: 10px;");
+    titleLabel->setStyleSheet("font-size: 23px; font-weight: 700; color: white; padding: 10px;");
     mainLayout->addWidget(titleLabel);
 
-    QLabel *deviceLabel = new QLabel("Подключенные USB-устройства:", this);
-    deviceLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #34495e;");
-    mainLayout->addWidget(deviceLabel);
 
     m_deviceList = new QListWidget(this);
-    m_deviceList->setMinimumHeight(380);
+    m_deviceList->setMinimumHeight(180);
     mainLayout->addWidget(m_deviceList);
 
+    // Buttons
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->setSpacing(10);
 
@@ -88,15 +90,12 @@ void USBWindow::setupUI()
     buttonLayout->addWidget(m_refreshButton);
     mainLayout->addLayout(buttonLayout);
 
-    QLabel *logLabel = new QLabel("Журнал событий:", this);
-    logLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #34495e;");
-    mainLayout->addWidget(logLabel);
-
     m_logConsole = new QTextEdit(this);
     m_logConsole->setReadOnly(true);
     m_logConsole->setMinimumHeight(200);
     mainLayout->addWidget(m_logConsole);
 
+    // Connect signals
     connect(m_ejectButton, &QPushButton::clicked, this, &USBWindow::onEjectButtonClicked);
     connect(m_refreshButton, &QPushButton::clicked, this, &USBWindow::onRefreshButtonClicked);
     connect(m_deviceList, &QListWidget::itemSelectionChanged, this, &USBWindow::onDeviceSelectionChanged);
@@ -105,30 +104,59 @@ void USBWindow::setupUI()
 void USBWindow::applyStyles()
 {
     QString styleSheet = R"(
-        QMainWindow { background-color: #ecf0f1; }
-        QListWidget {
-            background-color: white;
-            color: #2c3e50;
-            border: 2px solid #bdc3c7;
-            border-radius: 8px;
-            padding: 5px;
-            font-size: 12px;
+        QMainWindow {
+            background-color: #401120;
         }
-        QListWidget::item { color: #2c3e50; padding: 8px; border-bottom: 1px solid #ecf0f1; }
-        QListWidget::item:selected { background-color: #3498db; color: white; }
-        QListWidget::item:hover { background-color: #e8f4f8; }
+        QListWidget {
+            background-color: black;
+            color: white;
+            border: 2px solid #bdc3c7;
+            padding: 5px;
+            font-size: 15px;
+        }
+        QListWidget::item {
+            color: white;
+            font-weight: 600;
+            padding: 8px;
+        }
+        QListWidget::item:selected {
+            background-color: white;
+            color: black;
+        }
+        QListWidget::item:hover {
+            background-color: white;
+            color: black;
+        }
         QTextEdit {
-            background-color: #2c3e50; color: #ecf0f1; border: 2px solid #34495e;
-            border-radius: 8px; padding: 8px; font-family: 'Consolas','Courier New',monospace; font-size: 11px;
+            background-color: black;
+            color: white;
+            border: 2px solid white;
+            padding: 8px;
+
+            font-size: 13px;
         }
         QPushButton {
-            background-color: #3498db; color: white; border: none; border-radius: 6px;
-            padding: 10px 20px; font-size: 13px; font-weight: bold;
+            background-color: white;
+            color: black;
+            border: none;
+            border: 1px solid black;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: bold;
         }
-        QPushButton:hover { background-color: #2980b9; }
-        QPushButton:pressed { background-color: #21618c; }
-        QPushButton:disabled { background-color: #95a5a6; color: #bdc3c7; }
+        QPushButton:hover {
+            background-color: #2980b9;
+        }
+        QPushButton:pressed {
+            background-color: #21618c;
+        }
+        QPushButton:disabled {
+            background-color: none;
+            border: 1px solid white;
+            color: white;
+        }
     )";
+
     setStyleSheet(styleSheet);
 }
 
@@ -136,9 +164,11 @@ void USBWindow::scanUSBDevices()
 {
     m_deviceList->clear();
     m_devices.clear();
-    addLogMessage("Сканирование USB-устройств...", "#3498db");
+
+    addLogMessage("Сканирование USB-устройств...", "white");
 
 #ifdef Q_OS_WIN
+    // Получаем набор устройств
     HDEVINFO deviceInfoSet = SetupDiGetClassDevs(
         &GUID_DEVINTERFACE_USB_DEVICE,
         NULL,
@@ -147,284 +177,238 @@ void USBWindow::scanUSBDevices()
         );
 
     if (deviceInfoSet == INVALID_HANDLE_VALUE) {
-        addLogMessage("Ошибка: не удалось получить список устройств", "#e74c3c");
+        addLogMessage("Ошибка: не удалось получить список устройств", "Red");
         return;
     }
 
+    // Перебираем устройства
     SP_DEVICE_INTERFACE_DATA deviceInterfaceData;
     deviceInterfaceData.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
 
     int deviceCount = 0;
-    for (DWORD i = 0; SetupDiEnumDeviceInterfaces(deviceInfoSet, NULL, &GUID_DEVINTERFACE_USB_DEVICE, i, &deviceInterfaceData); ++i) {
+
+    for (DWORD i = 0; SetupDiEnumDeviceInterfaces(deviceInfoSet, NULL, &GUID_DEVINTERFACE_USB_DEVICE, i, &deviceInterfaceData); i++) {
+        // Получение деталей интервейса
         DWORD requiredSize = 0;
         SetupDiGetDeviceInterfaceDetail(deviceInfoSet, &deviceInterfaceData, NULL, 0, &requiredSize, NULL);
-        PSP_DEVICE_INTERFACE_DETAIL_DATA deviceInterfaceDetailData = (PSP_DEVICE_INTERFACE_DETAIL_DATA)malloc(requiredSize);
+
+        PSP_DEVICE_INTERFACE_DETAIL_DATA deviceInterfaceDetailData =
+            (PSP_DEVICE_INTERFACE_DETAIL_DATA)malloc(requiredSize);
+
         if (!deviceInterfaceDetailData) continue;
 
+        // Получаем доп данные к устроййтсву DevicePath — уникальный путь к устройству в системе. SP_DEVINFO_DATA — дополнительные данные о устройстве, включая DevInst, который нужен для безопасного извлечения.
         deviceInterfaceDetailData->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
         SP_DEVINFO_DATA deviceInfoData;
         deviceInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
 
-        if (SetupDiGetDeviceInterfaceDetail(deviceInfoSet, &deviceInterfaceData, deviceInterfaceDetailData, requiredSize, NULL, &deviceInfoData)) {
+
+
+        if (SetupDiGetDeviceInterfaceDetail(deviceInfoSet, &deviceInterfaceData,
+                                            deviceInterfaceDetailData, requiredSize, NULL, &deviceInfoData)) {
+
+            // Пытаемся достать имя или стандартное описание устройства
             QString devicePath = QString::fromWCharArray(deviceInterfaceDetailData->DevicePath);
-
-            // Get friendly name (preferred) and description
-            QString friendly = getDeviceFriendlyName(deviceInfoSet, deviceInfoData);
-            QString desc = getDeviceDescription(devicePath);
-            QString devClass = getDeviceClass(deviceInfoSet, deviceInfoData);
-
-            QString deviceName = !friendly.isEmpty() ? friendly : (!desc.isEmpty() ? desc : QString("USB Device"));
-
-            // Heuristics to filter out unwanted devices:
-            // - hide Bluetooth adapters (Intel Wireless Bluetooth)
-            // - hide generic composite devices unless they look like a mouse or storage
-            QString lowerName = deviceName.toLower();
-            QString lowerDesc = desc.toLower();
-            QString lowerClass = devClass.toLower();
-
-            bool looksLikeMouse = (lowerName.contains("mouse") || lowerDesc.contains("mouse") || lowerName.contains("logitech") || lowerDesc.contains("logitech") || lowerName.contains("g305"));
-            bool looksLikeStorage = (lowerName.contains("mass storage") || lowerDesc.contains("mass storage") ||
-                                     lowerName.contains("removable") || lowerDesc.contains("usb flash") ||
-                                     lowerName.contains("запоминающее") || lowerDesc.contains("flash") || lowerDesc.contains("disk"));
-            bool isBluetooth = (lowerName.contains("bluetooth") || lowerDesc.contains("bluetooth") || lowerClass.contains("bluetooth"));
-
-            // If device is obviously Bluetooth and not a mouse/storage -> skip
-            if (isBluetooth && !looksLikeMouse && !looksLikeStorage) {
-                free(deviceInterfaceDetailData);
-                continue;
-            }
-
-            // If device is a generic composite/usual "USB Device" and doesn't look like mouse or storage -> skip
-            bool isGenericComposite = (lowerName.contains("composite") || lowerDesc.contains("composite") ||
-                                       lowerName == "usb device" || lowerDesc == "usb device");
-
-            if (isGenericComposite && !looksLikeMouse && !looksLikeStorage) {
-                free(deviceInterfaceDetailData);
-                continue;
-            }
+            QString deviceName = getDeviceDescription(devicePath);
+            QString deviceType = getDeviceType(devicePath);
+            QStringList driveLetters = getDriveLettersForDevice(devicePath);
 
             USBDeviceInfo info;
-            // Only append drive letters for devices that look like storage
-            QStringList driveLetters;
-            if (looksLikeStorage) {
-                driveLetters = getDriveLettersForDevice(info.instanceId);
-            }
-
-
             info.devicePath = devicePath;
             info.deviceName = deviceName;
-            info.deviceType = looksLikeMouse ? "USB Mouse" : (looksLikeStorage ? "USB Flash Drive" : "USB Device");
+            info.deviceType = deviceType;
             info.driveLetters = driveLetters;
             info.isRemovable = isDeviceEjectable(devicePath);
             info.devInst = deviceInfoData.DevInst;
             info.instanceId = getDeviceInstanceId(deviceInfoData.DevInst);
-            // -------- ОПРЕДЕЛЕНИЕ ТВОЕЙ МЫШКИ --------
-            if (isMyMouse(info.instanceId)) {
-                info.deviceType = "USB Mouse";
-                info.deviceName = "Logitech G305";
-            }
 
-
-            // Build visible text
-            QString displayText;
-            if (info.deviceType == "USB Flash Drive" && !driveLetters.isEmpty()) {
-                displayText = QString("%1 (%2)").arg(info.deviceName, driveLetters.join(", "));
-            } else {
-                displayText = QString("%1 [%2]").arg(info.deviceName, info.deviceType);
-            }
-
-            // Put in map and list
             m_devices[devicePath] = info;
+
+            QString displayText = QString("%1 [%2]").arg(deviceName, deviceType);
+            if (!driveLetters.isEmpty()) {
+                displayText += QString("").arg(driveLetters.join(", "));
+            }
+
             QListWidgetItem *item = new QListWidgetItem(displayText);
             item->setData(Qt::UserRole, devicePath);
             m_deviceList->addItem(item);
             deviceCount++;
 
-            addLogMessage(QString("✓ Обнаружено: %1").arg(displayText), "#27ae60");
+            addLogMessage(QString("✓ Обнаружено: %1").arg(displayText), "green");
         }
 
         free(deviceInterfaceDetailData);
     }
 
     SetupDiDestroyDeviceInfoList(deviceInfoSet);
-    addLogMessage(QString("Сканирование завершено. Найдено устройств: %1").arg(deviceCount), "#3498db");
+
+    addLogMessage(QString("Сканирование завершено. Найдено устройств: %1").arg(deviceCount), "white");
 #else
     addLogMessage("USB мониторинг доступен только на Windows", "#e74c3c");
 #endif
 }
 
 #ifdef Q_OS_WIN
-QString USBWindow::getDeviceFriendlyName(HDEVINFO deviceInfoSet, SP_DEVINFO_DATA &deviceInfoData)
-{
-    wchar_t buffer[256];
-
-    if (SetupDiGetDeviceRegistryPropertyW(
-            deviceInfoSet,
-            &deviceInfoData,
-            SPDRP_FRIENDLYNAME,
-            NULL,
-            (PBYTE)buffer,
-            sizeof(buffer),
-            NULL))
-    {
-        return QString::fromWCharArray(buffer);
-    }
-
-    if (SetupDiGetDeviceRegistryPropertyW(
-            deviceInfoSet,
-            &deviceInfoData,
-            SPDRP_DEVICEDESC,
-            NULL,
-            (PBYTE)buffer,
-            sizeof(buffer),
-            NULL))
-    {
-        return QString::fromWCharArray(buffer);
-    }
-
-    return "Unknown USB Device";
-}
-
-
 QString USBWindow::getDeviceDescription(const QString &devicePath)
 {
-    // Lookup device description by enumerating interfaces and comparing paths (fallback)
-    HDEVINFO deviceInfoSet = SetupDiGetClassDevs(&GUID_DEVINTERFACE_USB_DEVICE, NULL, NULL, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
-    if (deviceInfoSet == INVALID_HANDLE_VALUE) return "USB Device";
+    // Создаем набор устройств
+    HDEVINFO deviceInfoSet = SetupDiGetClassDevs(
+        &GUID_DEVINTERFACE_USB_DEVICE,
+        NULL,
+        NULL,
+        DIGCF_PRESENT | DIGCF_DEVICEINTERFACE
+        );
+
+    if (deviceInfoSet == INVALID_HANDLE_VALUE) {
+        return "Unknown Device";
+    }
 
     SP_DEVICE_INTERFACE_DATA deviceInterfaceData;
     deviceInterfaceData.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
 
-    for (DWORD i = 0; SetupDiEnumDeviceInterfaces(deviceInfoSet, NULL, &GUID_DEVINTERFACE_USB_DEVICE, i, &deviceInterfaceData); ++i) {
+    // Перебираем
+    for (DWORD i = 0; SetupDiEnumDeviceInterfaces(deviceInfoSet, NULL, &GUID_DEVINTERFACE_USB_DEVICE, i, &deviceInterfaceData); i++) {
+        // Получение пути
         DWORD requiredSize = 0;
         SetupDiGetDeviceInterfaceDetail(deviceInfoSet, &deviceInterfaceData, NULL, 0, &requiredSize, NULL);
-        PSP_DEVICE_INTERFACE_DETAIL_DATA detail = (PSP_DEVICE_INTERFACE_DETAIL_DATA)malloc(requiredSize);
-        if (!detail) continue;
-        detail->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
-        SP_DEVINFO_DATA devInfo;
-        devInfo.cbSize = sizeof(SP_DEVINFO_DATA);
-        if (SetupDiGetDeviceInterfaceDetail(deviceInfoSet, &deviceInterfaceData, detail, requiredSize, NULL, &devInfo)) {
-            QString curPath = QString::fromWCharArray(detail->DevicePath);
-            if (curPath == devicePath) {
-                WCHAR buffer[512] = {0};
-                if (SetupDiGetDeviceRegistryProperty(deviceInfoSet, &devInfo, SPDRP_DEVICEDESC, NULL, (PBYTE)buffer, sizeof(buffer), NULL)) {
-                    QString res = QString::fromWCharArray(buffer);
-                    free(detail);
+
+
+        // Получаем имя если совпадают пути
+        PSP_DEVICE_INTERFACE_DETAIL_DATA deviceInterfaceDetailData =
+            (PSP_DEVICE_INTERFACE_DETAIL_DATA)malloc(requiredSize);
+
+        if (!deviceInterfaceDetailData) continue;
+
+        deviceInterfaceDetailData->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
+        SP_DEVINFO_DATA deviceInfoData;
+        deviceInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
+
+        if (SetupDiGetDeviceInterfaceDetail(deviceInfoSet, &deviceInterfaceData,
+                                            deviceInterfaceDetailData, requiredSize, NULL, &deviceInfoData)) {
+
+            QString currentPath = QString::fromWCharArray(deviceInterfaceDetailData->DevicePath);
+
+            if (currentPath == devicePath) {
+                WCHAR buffer[256];
+                if (SetupDiGetDeviceRegistryProperty(deviceInfoSet, &deviceInfoData,
+                                                     SPDRP_DEVICEDESC, NULL, (PBYTE)buffer, sizeof(buffer), NULL)) {
+                    free(deviceInterfaceDetailData);
                     SetupDiDestroyDeviceInfoList(deviceInfoSet);
-                    return res;
+                    return QString::fromWCharArray(buffer);
                 }
             }
         }
-        free(detail);
+
+        free(deviceInterfaceDetailData);
     }
 
     SetupDiDestroyDeviceInfoList(deviceInfoSet);
+    // Если имя не найдено
     return "USB Device";
 }
 
-QString USBWindow::getDeviceClass(HDEVINFO deviceInfoSet, SP_DEVINFO_DATA &deviceInfoData)
+QString USBWindow::getDeviceType(const QString &devicePath)
 {
-    wchar_t buffer[256];
-
-    if (SetupDiGetDeviceRegistryPropertyW(
-            deviceInfoSet,
-            &deviceInfoData,
-            SPDRP_CLASS,
-            NULL,
-            (PBYTE)buffer,
-            sizeof(buffer),
-            NULL))
-    {
-        return QString::fromWCharArray(buffer);
+    if (devicePath.contains("vid_", Qt::CaseInsensitive)) {
+        if (devicePath.contains("mi_00")) return "USB Composite Device";
+        if (devicePath.contains("mi_01")) return "USB Interface";
     }
 
-    return "UnknownClass";
+    // Try to determine type from description
+    QString desc = getDeviceDescription(devicePath);
+    if (desc.contains("Mouse", Qt::CaseInsensitive)) return "USB Mouse";
+    if (desc.contains("Keyboard", Qt::CaseInsensitive)) return "USB Keyboard";
+    if (desc.contains("Storage", Qt::CaseInsensitive)) return "USB Mass Storage";
+    if (desc.contains("Hub", Qt::CaseInsensitive)) return "USB Hub";
+    if (desc.contains("Camera", Qt::CaseInsensitive)) return "USB Camera";
+
+    return "USB Device";
 }
 
-
-QStringList USBWindow::getDriveLettersForDevice(const QString &instanceId)
+QStringList USBWindow::getDriveLettersForDevice(const QString &devicePath)
 {
-    QStringList result;
+    QStringList drives;
 
-    DWORD mask = GetLogicalDrives();
+    DWORD driveMask = GetLogicalDrives();
 
-    for (int i = 0; i < 26; i++) {
-        if (!(mask & (1 << i)))
-            continue;
+    for (char letter = 'A'; letter <= 'Z'; letter++) {
+        if (driveMask & (1 << (letter - 'A'))) {
+            QString drivePath = QString("%1:\\").arg(letter);
+            UINT driveType = GetDriveType(drivePath.toStdWString().c_str());
 
-        QString letter = QString("%1:").arg(QChar('A' + i));
-        QString root   = letter + "\\";
-
-        UINT type = GetDriveTypeW((LPCWSTR)root.utf16());
-
-        if (type != DRIVE_REMOVABLE)
-            continue;
-
-        wchar_t volumePath[MAX_PATH] = {0};
-        if (!GetVolumeNameForVolumeMountPointW((LPCWSTR)root.utf16(), volumePath, MAX_PATH))
-            continue;
-
-        // Приводим всё в верхний регистр
-        QString volumeId = QString::fromWCharArray(volumePath).toUpper();
-        QString instId   = instanceId.toUpper();
-
-        // Проверяем VID/PID
-        // Пример: \\?\Volume{GUID}\ -> далее содержит DeviceInstance
-        if (volumeId.contains("VID_") && volumeId.contains("PID_"))
-        {
-            QString vidPid = instId.section('\\', 1, 1); // берем VID_xxx&PID_xxx
-            if (volumeId.contains(vidPid)) {
-                result << letter;
-                break; // одна буква — выходим
+            if (driveType == DRIVE_REMOVABLE || driveType == DRIVE_FIXED) {
+                // Check if this is a USB drive
+                WCHAR volumeName[MAX_PATH];
+                if (GetVolumeNameForVolumeMountPoint(drivePath.toStdWString().c_str(), volumeName, MAX_PATH)) {
+                    QString volName = QString::fromWCharArray(volumeName);
+                    if (driveType == DRIVE_REMOVABLE) {
+                        drives.append(QString("%1:").arg(letter));
+                    }
+                }
             }
         }
     }
 
-    return result;
+    return drives;
 }
-
 
 bool USBWindow::isDeviceEjectable(const QString &devicePath)
 {
-    // Heuristic: if description contains root_hub or is not mass storage, keep non-ejectable
-    if (devicePath.contains("root_hub", Qt::CaseInsensitive)) return false;
-    return true;
+    // Most USB devices are ejectable except for some system devices
+    return !devicePath.contains("root_hub", Qt::CaseInsensitive);
 }
 
 DEVINST USBWindow::getDeviceInstance(const QString &devicePath)
 {
-    HDEVINFO deviceInfoSet = SetupDiGetClassDevs(&GUID_DEVINTERFACE_USB_DEVICE, NULL, NULL, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
-    if (deviceInfoSet == INVALID_HANDLE_VALUE) return 0;
+    HDEVINFO deviceInfoSet = SetupDiGetClassDevs(
+        &GUID_DEVINTERFACE_USB_DEVICE,
+        NULL,
+        NULL,
+        DIGCF_PRESENT | DIGCF_DEVICEINTERFACE
+        );
+
+    if (deviceInfoSet == INVALID_HANDLE_VALUE) {
+        return 0;
+    }
 
     SP_DEVICE_INTERFACE_DATA deviceInterfaceData;
     deviceInterfaceData.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
 
-    for (DWORD i = 0; SetupDiEnumDeviceInterfaces(deviceInfoSet, NULL, &GUID_DEVINTERFACE_USB_DEVICE, i, &deviceInterfaceData); ++i) {
+    for (DWORD i = 0; SetupDiEnumDeviceInterfaces(deviceInfoSet, NULL, &GUID_DEVINTERFACE_USB_DEVICE, i, &deviceInterfaceData); i++) {
         DWORD requiredSize = 0;
         SetupDiGetDeviceInterfaceDetail(deviceInfoSet, &deviceInterfaceData, NULL, 0, &requiredSize, NULL);
-        PSP_DEVICE_INTERFACE_DETAIL_DATA detail = (PSP_DEVICE_INTERFACE_DETAIL_DATA)malloc(requiredSize);
-        if (!detail) continue;
-        detail->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
-        SP_DEVINFO_DATA devInfo;
-        devInfo.cbSize = sizeof(SP_DEVINFO_DATA);
-        if (SetupDiGetDeviceInterfaceDetail(deviceInfoSet, &deviceInterfaceData, detail, requiredSize, NULL, &devInfo)) {
-            QString curPath = QString::fromWCharArray(detail->DevicePath);
-            if (curPath == devicePath) {
-                DEVINST inst = devInfo.DevInst;
-                free(detail);
+
+        PSP_DEVICE_INTERFACE_DETAIL_DATA deviceInterfaceDetailData =
+            (PSP_DEVICE_INTERFACE_DETAIL_DATA)malloc(requiredSize);
+
+        if (!deviceInterfaceDetailData) continue;
+
+        deviceInterfaceDetailData->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
+        SP_DEVINFO_DATA deviceInfoData;
+        deviceInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
+
+        if (SetupDiGetDeviceInterfaceDetail(deviceInfoSet, &deviceInterfaceData,
+                                            deviceInterfaceDetailData, requiredSize, NULL, &deviceInfoData)) {
+
+            QString currentPath = QString::fromWCharArray(deviceInterfaceDetailData->DevicePath);
+
+            if (currentPath == devicePath) {
+                DEVINST devInst = deviceInfoData.DevInst;
+                free(deviceInterfaceDetailData);
                 SetupDiDestroyDeviceInfoList(deviceInfoSet);
-                return inst;
+                return devInst;
             }
         }
-        free(detail);
+
+        free(deviceInterfaceDetailData);
     }
+
     SetupDiDestroyDeviceInfoList(deviceInfoSet);
     return 0;
 }
 
 QString USBWindow::getDeviceInstanceId(DEVINST devInst)
 {
-    if (!devInst) return QString();
     WCHAR buffer[MAX_DEVICE_ID_LEN];
     if (CM_Get_Device_ID(devInst, buffer, MAX_DEVICE_ID_LEN, 0) == CR_SUCCESS) {
         return QString::fromWCharArray(buffer);
@@ -434,18 +418,21 @@ QString USBWindow::getDeviceInstanceId(DEVINST devInst)
 
 bool USBWindow::ejectDevice(const USBDeviceInfo &deviceInfo)
 {
+
+    // Проверка возможности извлечения
     if (!deviceInfo.isRemovable) {
-        addLogMessage("⚠ Устройство не поддерживает безопасное извлечение", "#e67e22");
+        addLogMessage("Устройство не поддерживает безопасное извлечение", "red");
         return false;
     }
 
-    addLogMessage(QString("Попытка безопасного извлечения: %1").arg(deviceInfo.deviceName), "#3498db");
+    addLogMessage(QString("Попытка безопасного извлечения: %1").arg(deviceInfo.deviceName), "yellow");
 
-    PNP_VETO_TYPE vetoType;
-    WCHAR vetoName[MAX_PATH];
+    // Вызов Windows API CM_Request_Device_Eject
+    PNP_VETO_TYPE vetoType; // Почему нельзя
+    WCHAR vetoName[MAX_PATH]; // Служба отказа
 
     CONFIGRET result = CM_Request_Device_Eject(
-        deviceInfo.devInst,
+        deviceInfo.devInst, // Идентификатор устрайства
         &vetoType,
         vetoName,
         MAX_PATH,
@@ -453,15 +440,63 @@ bool USBWindow::ejectDevice(const USBDeviceInfo &deviceInfo)
         );
 
     if (result == CR_SUCCESS) {
-        addLogMessage(QString("✓ Устройство '%1' безопасно извлечено").arg(deviceInfo.deviceName), "#27ae60");
+        addLogMessage(QString("✓ Устройство '%1' безопасно извлечено").arg(deviceInfo.deviceName), "green");
         emit deviceDisconnected(deviceInfo.deviceName);
         return true;
     } else {
-        QString errorMsg = QString("Код ошибки: %1").arg((int)result);
-        addLogMessage(QString("✗ ОТКАЗ в безопасном извлечении: %1").arg(errorMsg), "#e74c3c");
-        if (vetoName[0] != L'\0') {
-            addLogMessage(QString("  Причина: %1").arg(QString::fromWCharArray(vetoName)), "#e74c3c");
+        QString errorMsg;
+        switch (vetoType) {
+        case PNP_VetoTypeUnknown:
+            errorMsg = "Неизвестная причина отказа";
+            break;
+        case PNP_VetoLegacyDevice:
+            errorMsg = "Устройство используется legacy драйвером";
+            break;
+        case PNP_VetoPendingClose:
+            errorMsg = "Устройство используется приложением";
+            break;
+        case PNP_VetoWindowsApp:
+            errorMsg = "Устройство используется приложением Windows";
+            break;
+        case PNP_VetoWindowsService:
+            errorMsg = "Устройство используется службой Windows";
+            break;
+        case PNP_VetoOutstandingOpen:
+            errorMsg = "Устройство имеет открытые дескрипторы";
+            break;
+        case PNP_VetoDevice:
+            errorMsg = "Устройство отклонило запрос";
+            break;
+        case PNP_VetoDriver:
+            errorMsg = "Драйвер отклонил запрос";
+            break;
+        case PNP_VetoIllegalDeviceRequest:
+            errorMsg = "Недопустимый запрос для устройства";
+            break;
+        case PNP_VetoInsufficientPower:
+            errorMsg = "Недостаточно питания";
+            break;
+        case PNP_VetoNonDisableable:
+            errorMsg = "Устройство не может быть отключено";
+            break;
+        case PNP_VetoLegacyDriver:
+            errorMsg = "Используется legacy драйвер";
+            break;
+        case PNP_VetoInsufficientRights:
+            errorMsg = "Недостаточно прав доступа";
+            break;
+        default:
+            errorMsg = QString("Код ошибки: %1").arg(result);
         }
+
+        addLogMessage(QString("✗ ОТКАЗ в безопасном извлечении: %1").arg(errorMsg), "red");
+        addLogMessage(QString("  Устройство: %1").arg(deviceInfo.deviceName), "white");
+
+        if (vetoName[0] != L'\0') {
+            QString vetoNameStr = QString::fromWCharArray(vetoName);
+            addLogMessage(QString("  Причина: %1").arg(vetoNameStr), "red");
+        }
+
         return false;
     }
 }
@@ -472,7 +507,10 @@ void USBWindow::addLogMessage(const QString &message, const QString &color)
     QString timestamp = QDateTime::currentDateTime().toString("hh:mm:ss");
     QString formattedMessage = QString("<span style='color: #95a5a6;'>[%1]</span> <span style='color: %2;'>%3</span>")
                                    .arg(timestamp, color, message);
+
     m_logConsole->append(formattedMessage);
+
+    // Auto-scroll to bottom
     QTextCursor cursor = m_logConsole->textCursor();
     cursor.movePosition(QTextCursor::End);
     m_logConsole->setTextCursor(cursor);
@@ -483,14 +521,19 @@ void USBWindow::onEjectButtonClicked()
     QListWidgetItem *currentItem = m_deviceList->currentItem();
     if (!currentItem) return;
 
+
+    // Берем путь устройства
     QString devicePath = currentItem->data(Qt::UserRole).toString();
+
     if (!m_devices.contains(devicePath)) {
-        addLogMessage("Ошибка: устройство не найдено", "#e74c3c");
+        addLogMessage("Ошибка: устройство не найдено", "red");
         return;
     }
 
 #ifdef Q_OS_WIN
     USBDeviceInfo deviceInfo = m_devices[devicePath];
+
+    // Подтверждение пользователя
     QMessageBox msgBox(this);
     msgBox.setWindowTitle("Безопасное извлечение");
     msgBox.setText(QString("Вы уверены, что хотите извлечь устройство?\n\n%1").arg(deviceInfo.deviceName));
@@ -499,8 +542,11 @@ void USBWindow::onEjectButtonClicked()
     msgBox.setDefaultButton(QMessageBox::Yes);
 
     if (msgBox.exec() == QMessageBox::Yes) {
+        // через функцию Plug and Play API отправляя дескриптор устройства извлекаем
         bool success = ejectDevice(deviceInfo);
+
         if (success) {
+            // Refresh the list after a short delay
             QTimer::singleShot(1000, this, &USBWindow::scanUSBDevices);
         }
     }
@@ -525,25 +571,31 @@ bool USBWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr 
 #ifdef Q_OS_WIN
     if (eventType == "windows_generic_MSG") {
         MSG *msg = static_cast<MSG *>(message);
+
         if (msg->message == WM_DEVICECHANGE) {
-            DEV_BROADCAST_HDR *pHdr = reinterpret_cast<DEV_BROADCAST_HDR*>(msg->lParam);
+            DEV_BROADCAST_HDR *pHdr = (DEV_BROADCAST_HDR *)msg->lParam;
+
             switch (msg->wParam) {
             case DBT_DEVICEARRIVAL:
                 addLogMessage("=== СОБЫТИЕ: Подключение нового устройства ===", "#27ae60");
                 handleDeviceArrival(pHdr);
                 QTimer::singleShot(500, this, &USBWindow::scanUSBDevices);
                 break;
+
             case DBT_DEVICEREMOVECOMPLETE:
                 addLogMessage("=== СОБЫТИЕ: Устройство отключено ===", "#e67e22");
                 handleDeviceRemoval(pHdr);
                 QTimer::singleShot(500, this, &USBWindow::scanUSBDevices);
                 break;
+
             case DBT_DEVICEQUERYREMOVE:
                 addLogMessage("→ Запрос на безопасное извлечение устройства", "#3498db");
                 break;
+
             case DBT_DEVICEQUERYREMOVEFAILED:
                 addLogMessage("✗ НЕБЕЗОПАСНОЕ ИЗВЛЕЧЕНИЕ: Запрос отклонен!", "#e74c3c");
                 break;
+
             case DBT_DEVICEREMOVEPENDING:
                 addLogMessage("⏳ Ожидание завершения извлечения устройства...", "#f39c12");
                 break;
@@ -551,30 +603,35 @@ bool USBWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr 
         }
     }
 #endif
+
     return QMainWindow::nativeEvent(eventType, message, result);
 }
 
 #ifdef Q_OS_WIN
 void USBWindow::handleDeviceArrival(DEV_BROADCAST_HDR *pHdr)
 {
-    if (!pHdr) return;
     if (pHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) {
-        auto *pDevInf = reinterpret_cast<DEV_BROADCAST_DEVICEINTERFACE*>(pHdr);
+        DEV_BROADCAST_DEVICEINTERFACE *pDevInf = (DEV_BROADCAST_DEVICEINTERFACE *)pHdr;
         QString devicePath = QString::fromWCharArray(pDevInf->dbcc_name);
-        QString name = getDeviceDescription(devicePath);
-        addLogMessage(QString("✓ Подключено: %1").arg(name), "#27ae60");
-        emit deviceConnected(name);
+        QString deviceName = getDeviceDescription(devicePath);
+
+        addLogMessage(QString("✓ Подключено: %1").arg(deviceName), "#27ae60");
+        emit deviceConnected(deviceName);
     }
 }
 
 void USBWindow::handleDeviceRemoval(DEV_BROADCAST_HDR *pHdr)
 {
-    if (!pHdr) return;
     if (pHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) {
-        auto *pDevInf = reinterpret_cast<DEV_BROADCAST_DEVICEINTERFACE*>(pHdr);
+        DEV_BROADCAST_DEVICEINTERFACE *pDevInf = (DEV_BROADCAST_DEVICEINTERFACE *)pHdr;
         QString devicePath = QString::fromWCharArray(pDevInf->dbcc_name);
+
+        // Try to find device name from our cache
         QString deviceName = "Unknown Device";
-        if (m_devices.contains(devicePath)) deviceName = m_devices[devicePath].deviceName;
+        if (m_devices.contains(devicePath)) {
+            deviceName = m_devices[devicePath].deviceName;
+        }
+
         addLogMessage(QString("✓ Отключено: %1").arg(deviceName), "#e67e22");
         emit deviceDisconnected(deviceName);
     }
@@ -585,12 +642,4 @@ void USBWindow::closeEvent(QCloseEvent *event)
 {
     addLogMessage("=== USB Мониторинг остановлен ===", "#95a5a6");
     QMainWindow::closeEvent(event);
-}
-
-bool USBWindow::isMyMouse(const QString &instanceId)
-{
-    QString id = instanceId.toUpper();
-
-    // ТВОЯ МЫШЬ Logitech G305 — VID 046D, PID C53F
-    return (id.contains("VID_046D") && id.contains("PID_C53F"));
 }

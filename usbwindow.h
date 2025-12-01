@@ -30,9 +30,9 @@ struct USBDeviceInfo {
     QString deviceType;
     QString volumeName;
     QStringList driveLetters;
-    bool isRemovable = false;
+    bool isRemovable;
 #ifdef Q_OS_WIN
-    DEVINST devInst = 0;
+    DEVINST devInst;
 #endif
     QString instanceId;
 };
@@ -51,6 +51,7 @@ signals:
 
 protected:
     bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) override;
+
     void closeEvent(QCloseEvent *event) override;
 
 private slots:
@@ -63,31 +64,28 @@ private:
     void applyStyles();
     void scanUSBDevices();
     void addLogMessage(const QString &message, const QString &color = "#000000");
-
 #ifdef Q_OS_WIN
     void handleDeviceArrival(DEV_BROADCAST_HDR *pHdr);
     void handleDeviceRemoval(DEV_BROADCAST_HDR *pHdr);
     QString getDeviceDescription(const QString &devicePath);
-    QString getDeviceFriendlyName(HDEVINFO deviceInfoSet, SP_DEVINFO_DATA &deviceInfoData);
-    QString getDeviceClass(HDEVINFO deviceInfoSet, SP_DEVINFO_DATA &deviceInfoData);
-    QStringList getDriveLettersForDevice(const QString &instanceId);
+    QString getDeviceType(const QString &devicePath);
+    QStringList getDriveLettersForDevice(const QString &devicePath);
     bool ejectDevice(const USBDeviceInfo &deviceInfo);
     bool isDeviceEjectable(const QString &devicePath);
     DEVINST getDeviceInstance(const QString &devicePath);
     QString getDeviceInstanceId(DEVINST devInst);
-    bool isMyMouse(const QString &instanceId);
 #endif
 
     // UI Components
-    QListWidget *m_deviceList = nullptr;
-    QTextEdit *m_logConsole = nullptr;
-    QPushButton *m_ejectButton = nullptr;
-    QPushButton *m_refreshButton = nullptr;
+    QListWidget *m_deviceList;
+    QTextEdit *m_logConsole;
+    QPushButton *m_ejectButton;
+    QPushButton *m_refreshButton;
 
     // Device tracking
     QMap<QString, USBDeviceInfo> m_devices;
 #ifdef Q_OS_WIN
-    HDEVNOTIFY m_deviceNotifyHandle = nullptr;
+    HDEVNOTIFY m_deviceNotifyHandle;
 #endif
 };
 
