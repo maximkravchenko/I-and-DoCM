@@ -1,5 +1,4 @@
 #include "bluetoothapp.h"
-
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -13,52 +12,83 @@ BluetoothApp::BluetoothApp(QWidget *parent)
     , m_songPath(AUDIO_FILE_PATH)
 {
     setWindowTitle("Lab 6: Bluetooth Audio Monitor");
-    setFixedSize(1101, 702);
+    setFixedSize(1101, 802);
+
+    // Применяем стили ПЕРЕД созданием виджетов
+    applyStyles();
 
     // --- 1. Создание интерфейса ---
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    mainLayout->setSpacing(15);
+    mainLayout->setContentsMargins(20, 20, 20, 20);
+
+    // Title
+    QLabel *titleLabel = new QLabel("Bluetooth Audio Monitor", this);
+    titleLabel->setAlignment(Qt::AlignCenter);
+    titleLabel->setStyleSheet("font-size: 23px; font-weight: 700; color: white; padding: 10px;");
+    mainLayout->addWidget(titleLabel);
 
     // Верхняя часть: Монитор
     QGroupBox *monitorGroup = new QGroupBox("Bluetooth Монитор", this);
     QVBoxLayout *monitorLayout = new QVBoxLayout(monitorGroup);
+    monitorLayout->setSpacing(10);
+    monitorLayout->setContentsMargins(15, 25, 15, 15);
 
     monitorToggleButton = new QPushButton("Начать мониторинг (Авто-сканирование)", this);
     deviceListWidget = new QListWidget(this);
+    deviceListWidget->setMinimumHeight(180);
+
+    QHBoxLayout *pairLayout = new QHBoxLayout();
     pairButton = new QPushButton("Сопряжение", this);
     pairButton->setEnabled(false);
     statusLabel = new QLabel("Статус: Готов", this);
+    statusLabel->setStyleSheet("font-size: 14px; color: white; font-weight: 600;");
+
+    pairLayout->addWidget(pairButton);
+    pairLayout->addStretch();
+    pairLayout->addWidget(statusLabel);
 
     monitorLayout->addWidget(monitorToggleButton);
     monitorLayout->addWidget(deviceListWidget);
-    monitorLayout->addWidget(pairButton);
-    monitorLayout->addWidget(statusLabel);
+    monitorLayout->addLayout(pairLayout);
     mainLayout->addWidget(monitorGroup);
 
     // Нижняя часть: Плеер (Отправка звука)
     QGroupBox *playerGroup = new QGroupBox("Отправка аудио (Плеер)", this);
     QVBoxLayout *playerLayout = new QVBoxLayout(playerGroup);
+    playerLayout->setSpacing(10);
+    playerLayout->setContentsMargins(15, 25, 15, 15);
 
+    // Выбор файла
     QHBoxLayout *fileLayout = new QHBoxLayout();
     songLabel = new QLabel("Файл: " + QFileInfo(m_songPath).fileName(), this);
+    songLabel->setStyleSheet("color: white; font-weight: 600;");
     selectSongButton = new QPushButton("Выбрать другой файл...", this);
     fileLayout->addWidget(songLabel);
+    fileLayout->addStretch();
     fileLayout->addWidget(selectSongButton);
     playerLayout->addLayout(fileLayout);
 
-    playPauseButton = new QPushButton("Отправить звук (Play)", this);
-    playPauseButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+    // Выбор устройства вывода
+    QLabel *outputLabel = new QLabel("Выберите устройство вывода (Наушники):", this);
+    outputLabel->setStyleSheet("color: white; font-weight: 600;");
+    audioOutputComboBox = new QComboBox(this);
+    audioOutputComboBox->setMinimumHeight(30);
+    playerLayout->addWidget(outputLabel);
+    playerLayout->addWidget(audioOutputComboBox);
 
+    // Кнопка воспроизведения
+    playPauseButton = new QPushButton("Отправить звук (Play)", this);
+    playPauseButton->setMinimumHeight(40);
+    playerLayout->addWidget(playPauseButton);
+
+    // Ползунок
     positionSlider = new QSlider(Qt::Horizontal, this);
     positionSlider->setEnabled(false);
-
-    playerLayout->addWidget(new QLabel("Выберите устройство вывода (Наушники):"));
-    audioOutputComboBox = new QComboBox(this);
-
-    playerLayout->addWidget(audioOutputComboBox);
-    playerLayout->addWidget(playPauseButton);
     playerLayout->addWidget(positionSlider);
-    mainLayout->addWidget(playerGroup);
 
+    mainLayout->addWidget(playerGroup);
+    mainLayout->addStretch();
 
     // --- 2. Инициализация логики ---
 
@@ -105,7 +135,112 @@ BluetoothApp::BluetoothApp(QWidget *parent)
 
 BluetoothApp::~BluetoothApp() {}
 
+// Стилизация окна (аналогично USBWindow)
+void BluetoothApp::applyStyles()
+{
+    QString styleSheet = R"(
+        QDialog {
+            background-color: #401120;
+        }
+        QGroupBox {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            border: 2px solid white;
+            border-radius: 5px;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+        QGroupBox::title {
+            subcontrol-origin: margin;
+            left: 10px;
+            padding: 0 5px 0 5px;
+        }
+        QListWidget {
+            background-color: black;
+            color: white;
+            border: 2px solid #bdc3c7;
+            padding: 5px;
+            font-size: 15px;
+        }
+        QListWidget::item {
+            color: white;
+            font-weight: 600;
+            padding: 8px;
+        }
+        QListWidget::item:selected {
+            background-color: white;
+            color: black;
+        }
+        QListWidget::item:hover {
+            background-color: white;
+            color: black;
+        }
+        QPushButton {
+            background-color: white;
+            color: black;
+            border: none;
+            border: 1px solid black;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        QPushButton:hover {
+            background-color: #2980b9;
+        }
+        QPushButton:pressed {
+            background-color: #21618c;
+        }
+        QPushButton:disabled {
+            background-color: #95a5a6;
+            border: 1px solid #7f8c8d;
+            color: #2c3e50;
+        }
+        QComboBox {
+            background-color: black;
+            color: white;
+            border: 2px solid white;
+            padding: 5px;
+            font-size: 14px;
+            min-height: 30px;
+        }
+        QComboBox::drop-down {
+            border: none;
+        }
+        QComboBox::down-arrow {
+            image: url(:/icons/down_arrow.png);
+            width: 12px;
+            height: 12px;
+        }
+        QComboBox QAbstractItemView {
+            background-color: black;
+            color: white;
+            selection-background-color: white;
+            selection-color: black;
+        }
+        QSlider::groove:horizontal {
+            border: 1px solid white;
+            height: 8px;
+            background: black;
+            margin: 2px 0;
+        }
+        QSlider::handle:horizontal {
+            background: white;
+            border: 2px solid black;
+            width: 18px;
+            margin: -5px 0;
+            border-radius: 3px;
+        }
+        QSlider::sub-page:horizontal {
+            background: #2980b9;
+        }
+    )";
+
+    setStyleSheet(styleSheet);
+}
+
 // --- ЛОГИКА МОНИТОРИНГА ---
+// Остальные методы остаются без изменений...
 
 void BluetoothApp::checkBluetoothStatus() {
     if (m_localDevice->hostMode() == QBluetoothLocalDevice::HostPoweredOff) {
@@ -166,14 +301,14 @@ void BluetoothApp::updateDeviceHighlights()
         QListWidgetItem *item = deviceListWidget->item(i);
         QBluetoothDeviceInfo info = item->data(Qt::UserRole).value<QBluetoothDeviceInfo>();
 
-        item->setForeground(palette().color(QPalette::WindowText));
+        item->setForeground(QColor(255, 255, 255)); // Белый цвет по умолчанию
 
         if (!currentAudioName.isEmpty() && currentAudioName.contains(info.name(), Qt::CaseInsensitive)) {
-            item->setForeground(Qt::blue);
+            item->setForeground(QColor(173, 216, 230)); // Светло-синий для подключенных
             item->setText(item->text() + " [ПОДКЛЮЧЕНО]");
         }
         else if (info.majorDeviceClass() == QBluetoothDeviceInfo::AudioVideoDevice) {
-            item->setForeground(QColor(0, 100, 0));
+            item->setForeground(QColor(144, 238, 144)); // Светло-зеленый для аудиоустройств
         }
     }
 }
@@ -237,7 +372,10 @@ void BluetoothApp::onAudioOutputChanged(int index)
 
 void BluetoothApp::onSelectSongClicked()
 {
-    QString path = QFileDialog::getOpenFileName(this, "Выбрать MP3", QStandardPaths::writableLocation(QStandardPaths::MusicLocation), "*.mp3");
+    QString path = QFileDialog::getOpenFileName(this, "Выбрать MP3",
+                                                QStandardPaths::writableLocation(QStandardPaths::MusicLocation),
+                                                "Аудио файлы (*.mp3 *.wav *.ogg)");
+
     if (!path.isEmpty()) {
         m_songPath = path;
         m_player->setSource(QUrl::fromLocalFile(m_songPath));
@@ -260,10 +398,12 @@ void BluetoothApp::updatePlaybackState(QMediaPlayer::PlaybackState newState)
         playPauseButton->setText("Пауза");
         playPauseButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
         statusLabel->setText("Отправка аудиопотока...");
+        statusLabel->setStyleSheet("color: #27ae60; font-size: 14px; font-weight: 600;");
     } else {
         playPauseButton->setText("Отправить звук (Play)");
         playPauseButton->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
         statusLabel->setText("Остановлено.");
+        statusLabel->setStyleSheet("color: white; font-size: 14px; font-weight: 600;");
     }
 }
 

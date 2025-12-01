@@ -1,8 +1,8 @@
 #ifndef BLUETOOTHAPP_H
 #define BLUETOOTHAPP_H
 
-#include <QDialog> // Обязательно первым делом
-#include <QWidget> // На всякий случай явно
+#include <QDialog>
+#include <QWidget>
 #include <QListWidget>
 #include <QPushButton>
 #include <QLabel>
@@ -24,10 +24,9 @@
 #include <QMediaDevices>
 #include <QAudioDevice>
 
-// Путь к файлу по умолчанию
 #define AUDIO_FILE_PATH "C:/FINAL/audio/file.mp3"
 
-class BluetoothApp : public QDialog // Наследуемся от QDialog
+class BluetoothApp : public QDialog
 {
     Q_OBJECT
 
@@ -36,18 +35,18 @@ public:
     ~BluetoothApp();
 
 private slots:
-    // --- Логика Друга (Мониторинг) ---
+    // Bluetooth monitoring
     void onMonitorToggleClicked();
     void startScanLoop();
     void scanFinished();
     void addDiscoveredDevice(const QBluetoothDeviceInfo &device);
 
-    // Сопряжение
+    // Pairing
     void onDeviceListClicked(QListWidgetItem *item);
     void onPairClicked();
     void pairingDone(const QBluetoothAddress &address, QBluetoothLocalDevice::Pairing status);
 
-    // --- Логика Плеера (Отправка звука) ---
+    // Audio player
     void updateAudioDevices();
     void updateDeviceHighlights();
     void onAudioOutputChanged(int index);
@@ -61,6 +60,7 @@ private slots:
 
 private:
     void checkBluetoothStatus();
+    void applyStyles();  // Добавьте этот метод
 
     // UI элементы
     QPushButton *monitorToggleButton;
